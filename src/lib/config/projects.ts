@@ -16,7 +16,7 @@ export const projects: Project[] = [
     description:
       "Exploring the failures my favourite NBA team, the New York Knicks",
     feature: 'Svelte',
-    img: 'https://raw.githubusercontent.com/danielliu2707/images/main/knicks.webp?token=GHSAT0AAAAAACKGCJXQTDGN6YSBABR2MCSQZKRN7GA',
+    img: 'https://raw.githubusercontent.com/danielliu2707/personal_website/main/urara/assets/knicks.png',
     link: 'https://github.com/danielliu2707/NYK_Failures'
   }
 ]

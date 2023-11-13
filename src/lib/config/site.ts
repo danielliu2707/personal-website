@@ -11,7 +11,7 @@ export const site: SiteConfig = {
     avatar: '/assets/tmp2.jpg',
     name: 'Daniel Liu',
     status: '🌸',
-    bio: 'Computer Science/Commerce & Monash'
+    bio: 'Computer Science/Commerce @ Monash'
   },
   themeColor: '#3D4451'
 }

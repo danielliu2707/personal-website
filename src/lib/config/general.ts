@@ -73,12 +73,12 @@ export const header: HeaderConfig = {
 export const footer: FooterConfig = {
   nav: [
     {
-      text: 'Feed',
-      link: '/atom.xml'
+      text: 'Linkedin',
+      link: 'https://www.linkedin.com/in/daniel-liu-80693a20b/'
     },
     {
-      text: 'Sitemap',
-      link: '/sitemap.xml'
+      text: 'Github',
+      link: 'https://github.com/danielliu2707'
     }
   ]
 }
