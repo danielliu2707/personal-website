@@ -83,5 +83,8 @@
     "overrides": {
       "vite>rollup": "^3.10.0"
     }
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.1.1"
   }
 }

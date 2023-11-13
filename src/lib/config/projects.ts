@@ -15,7 +15,7 @@ export const projects: Project[] = [
     tags: ['Python', 'R', 'Data Science'],
     description:
       "Exploring the failures my favourite NBA team, the New York Knicks",
-    feature: 'Svelte',
+    feature: '',
     img: 'https://raw.githubusercontent.com/danielliu2707/personal_website/main/urara/assets/knicks.png',
     link: 'https://github.com/danielliu2707/NYK_Failures'
   }

@@ -6,7 +6,7 @@ export const site: SiteConfig = {
   title: 'Daniel Liu',
   subtitle: '',
   lang: 'en-US',
-  description: 'Powered by SvelteKit/Urara',
+  description: '',
   author: {
     avatar: '/assets/tmp2.jpg',
     name: 'Daniel Liu',
