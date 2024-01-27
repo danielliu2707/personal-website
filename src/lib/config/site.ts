@@ -8,7 +8,7 @@ export const site: SiteConfig = {
   lang: 'en-US',
   description: '',
   author: {
-    avatar: '/assets/tmp2.jpg',
+    avatar: '/assets/maskable@512.png',
     name: 'Daniel Liu',
     status: '🌸',
     bio: 'Computer Science/Commerce @ Monash'
