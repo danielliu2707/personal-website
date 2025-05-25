@@ -10,6 +10,16 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    id: 'positionn',
+    name: 'Positionn',
+    tags: ['Python', 'Data Science', 'Machine Learning'],
+    description:
+      "Positionn is an app that predicts your ideal basketball position and finds your NBA twin! 🏀",
+    feature: '',
+    img: 'https://raw.githubusercontent.com/danielliu2707/positionn/refs/heads/main/img/positionn-logo.png',
+    link: 'https://github.com/danielliu2707/positionn'
+  },
+  {
     id: 'nykfailures',
     name: 'NYK Failures',
     tags: ['Python', 'R', 'Data Science'],
