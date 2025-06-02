@@ -1,5 +1,5 @@
 ---
-title: My Canva Experience
+title: "Canva Chronicles: My 12-Week Experience & Reflection"
 created: 2025-05-25
 tags: [Work Experience]
 ---
@@ -15,10 +15,10 @@ This article serves as a reflection on my internship experience at Canva - my le
 ### How did I end up at Canva?
 
 A bit of background. Canva had always been one of my dream companies for a few reasons:
-* I had been using Canva for a long time. Infact, it shocked me that I had been using Canva since year 10 to create stunning infographic designs. I always knew of the product and loved using it, but it never registered that the product was named Canva, and that it was a major technology employer based in Australia until I applied.
-* A couple of Canva employees showed up at an uni club trivia night I attended during my first year. One question was: "where was Canva founded?" I blindly guessed Perth, and somehow got it right. Ever since then, I had been enamoured by Canva. Perhaps it was the inspiration that came with seeing an amazing product originate from own hometown.
+* I had been using Canva for a long time. In fact, it shocked me that I had been using Canva since year 10 to create stunning infographic designs. I always knew of the product and loved using it, but it never registered that the product was named Canva, and that it was a major technology employer based in Australia until I applied.
+* A couple of Canva employees showed up at an uni club trivia night I attended during my first year. One question was: 'where was Canva founded?' I blindly guessed Perth, and somehow got it right. Ever since then, I had been enamoured by Canva. Perhaps it was the inspiration that came with seeing an amazing product originate from own hometown.
 
-So without hesitation, I applied. It was a longshot. I knew just how competitive it would be. Infact, I later found out that just 89 interns were taken from a pool of ~ 7000 applicants. But after an online assessment and a technical plus behavioural interview, I had made it in.
+So without hesitation, I applied. It was a longshot. I knew just how competitive it would be. In fact, I later found out that just 89 interns were taken from a pool of ~ 7000 applicants. But after an online assessment and a technical plus behavioural interview, I had made it in.
 
 ### Week 1 - Onboarding
 
@@ -32,9 +32,9 @@ All the interns spent the first week from the comfort of their home (or closest 
 
 ![campus_week](./IMG_9725.jpg)
 
-Campus week was when the fun really began - especially since I was sick during week 1. All the interns were flown to Sydney and given accomodation for a week, which meant some of us (myself included) got to meet our team in person, there were plenty of intern activities planned and we capped off the week with the annual Canva end-of-year party!  
+Campus week was when the fun really began - especially since I was sick during week 1. All the interns were flown to Sydney and given accommodation for a week, which meant some of us (myself included) got to meet our team in person, there were plenty of intern activities planned and we capped off the week with the annual Canva end-of-year party!  
 
-Let me tell you, the party was amazing. There was plenty of music (including a dance floor) to keep the vibes high, the street was decked out for us with food trucks, we attended stand-up comedy, learned how to shoot arrows and got to connect with one another while drunk. Actually, we could've gotten drunk anytime with beer taps and alcohol readily available on the Sydney office rooftop.  
+Let me tell you, the party was amazing. There was plenty of music (including a dance floor) to keep the vibes high, the street was decked out for us with food trucks, we attended stand-up comedy, learned how to shoot arrows and bonded over alcohol on the rooftop. Actually, we could've gotten drunk anytime with beer taps and alcohol readily available on the Sydney office rooftop.  
 
 I'm going to be completely transparent. I didn't get much work done this week. There were just too many intern events - both during and outside of work hours - that I didn't find the time to fully concentrate on my intern project. Fortunately, my team had told me to enjoy myself this week and not worry too much about work.
 
@@ -44,11 +44,13 @@ I'm going to be completely transparent. I didn't get much work done this week. T
 
 I decided to stay in Sydney for a few extra weeks - even after the all-expenses-paid Campus Week had wrapped up. My reasoning? I felt there was so much more Syndey could offer professionally and socially. I was fortunate in both of these aspects.  
 
-Professionally, most of the product Data Scientists were located in Sydney including my host, co-host and buddy. This meant that I could better connect with my team and learn a heck of alot more (scroll down to find my key learnings). Infact, those two months felt jam-packed with personal milestones that I could celebrate with the team - including an engagement, baby announcement and permanent residency approval! Even though I wish I could've seen my team a bit more as many came in just once a week, I totally get why they couldn't come in more often and still had an amazing time with them. Plus, I had my buddy next to me four days a week!
+Professionally, most of the product Data Scientists were located in Sydney including my host, co-host and buddy. This meant that I could better connect with my team and learn a heck of a lot more (scroll down to find my key learnings). In fact, those two months felt jam-packed with personal milestones that I could celebrate with the team - including an engagement, baby announcement and permanent residency approval! Even though I wish I could've seen my team a bit more - many came in just once a week - I totally get why, and I still had an amazing time with them.
 
-Socially, Sydney had more people. Especially interns. While I do wish I had taken the opportunity to mingle with more interns, I truly feel blessed to have gotten close to some amazing ones - especially those that also relocated from other states & stayed at Iglu accomodation. We would regularly explore the many wonders of Sydney (Bondi beach, Harbour bridge, Opera House, Manly etc), play games (Exploding Kitten, Codenames, Switch) and work together. I never felt there was a second to spare as some activity had always been planned for the weekend.  
+Even though I wish I could've seen my team a bit more as many came in just once a week, I totally get why they couldn't come in more often and still had an amazing time with them. Plus, I had my buddy next to me four days a week!
 
-Canva clubs were also a major highlight. You were allowed to attend up to four club-sponsored events each month, which meant the entire experience would be on the house! I was able to try out new activities like pilates (with my team) and pickleball, and endulge in treats like yo-chi, all for the price of ... NOTHING! Who doesn't love free stuff, all the while feeling part of a community :o
+Socially, Sydney had more people. Especially interns. While I do wish I had taken the opportunity to mingle with more interns, I truly feel blessed to have gotten close to some amazing ones - especially those that also relocated from other states & stayed at Iglu accommodation. We would regularly explore the many wonders of Sydney (Bondi beach, Harbour bridge, Opera House, Manly etc), play games (Exploding Kitten, Codenames, Switch) and work together. I never felt there was a second to spare as some activity had always been planned for the weekend.  
+
+Canva clubs were also a major highlight. You were allowed to attend up to four club-sponsored events each month, which meant the entire experience would be on the house! I was able to try out new activities like pilates (with my team) and pickleball, and indulge in treats like yo-chi, all for the price of ... NOTHING! Who doesn't love free stuff, all the while feeling part of a community :o
 
 ### Weeks 9 to 11 - Melbourne
 
@@ -60,16 +62,16 @@ I had made significant progress on my project - receiving positive feedback from
 
 Immersing myself into the Melbourne office culture wasn't too difficult. Though, there were only around 10 interns and with everyone working overtime, it was difficult to organise many social outings. You wouldn't believe the crazy hours some interns pulled. Alas, I knew when I worked best and prioritised waking up feeling refreshed.  
 
-Despite less social events, I still had a great time. I was able to meet a few teammates who were based out of Melbourne - even finding out one of them came from Perth aswell! We organised pickleball and basketball amongst the interns during these final few weeks, and enjoyed the lovely food (arguably better than Sydney's) made in-house by the chefs. I would also describe general vibe among the Melbourne office as more "cosy" - chill music playing, a closer-knit community and physical proximity all contributed to this change of scenery. 
+Despite less social events, I still had a great time. I was able to meet a few teammates who were based out of Melbourne - even finding out one of them came from Perth aswell! We organised pickleball and basketball amongst the interns during these final few weeks, and enjoyed the lovely food (arguably better than Sydney's) made in-house by the chefs. I would also describe general vibe among the Melbourne office as more 'cosy' - chill music playing, a closer-knit community and physical proximity all contributed to this change of scenery. 
 
 
 ### Week 12 - Presentations
 
 ![presos](./IMG_0596.jpg)
 
-The juxtaposition of the final week to the first week was immense. The last push to finish our work, submit our personal reflections & presentations and mingle with our peers one last time meant there was little time for much else. The Data Science interns gave a presentation among most Data Scientists at Canva at the start of the week, and all interns gave their final intern presentation on Wednesday and Thursday. Being in product, I was given the opportunity to present 1st among all Data Scientists and 2nd among all 89 interns. It was quite ther double-edged sword. On the one hand, I would be free from comparison prior to my presentation and would have the most crowd engagement (lots of interns shouting their support in the chat). On the other hand, since our presentations were broadcasted to the entire company, I would have the most eyes on me (which is also kind of good).  
+The juxtaposition of the final week to the first week was immense. The last push to finish our work, submit our personal reflections & presentations and mingle with our peers one last time meant there was little time for much else. The Data Science interns gave a presentation among most Data Scientists at Canva at the start of the week, and all interns gave their final intern presentation on Wednesday and Thursday. Being in product, I was given the opportunity to present 1st among all Data Scientists and 2nd among all 89 interns. It was quite the double-edged sword. On the one hand, I would be free from comparison prior to my presentation and would have the most crowd engagement (lots of interns shouting their support in the chat). On the other hand, since our presentations were broadcasted to the entire company, I would have the most eyes on me (which is also kind of good).  
 
-My presentations went well as I received positive feedback all around. However, comparison being the thief of joy that it is - it was hard not to compare my work to other interns (especially Data Scientists). For whatever reason, I felt that my work didn't sound as "impactful" or "cool" as other interns - which was probably not true - and found myself always comparing. Reflecting back, it's good to appreciate the amazing work other's do but don't forget all the work you've put in to deliver your best go at a challenging problem.  
+My presentations went well as I received positive feedback all around. However, comparison being the thief of joy that it is - it was hard not to compare my work to other interns (especially Data Scientists). For whatever reason, I felt that my work didn't sound as 'impactful' or 'cool' as other interns - which was probably not true - and found myself always comparing. Reflecting back, it's good to appreciate the amazing work other's do but don't forget all the work you've put in to deliver your best go at a challenging problem.  
 
 ### Week 12 - Final day
 
@@ -89,8 +91,14 @@ A few months have passed and the dust has settled on the internship. I'm back at
 
 ## Learnings
 
-1. Meaningful project names matter.
-2. Quantifying impact is difficult as a Data Scientist. How does one resolve this? Be proactive and chat with Stakeholders about the impact - focus on helping me to launch meaningful features.
-3. Always ask "so what"?
-4. Setup coffee catchups. Seeing the number of connections other interns (especially Viv) managed was inspiring. I intend on taking this with me further in my career. Set-up coffee catchups with EVERYONE in my team. Be curious about their work.
-5. Come prepared for one-on-one's with my manager. This is one area I did well. Come prepared with an Agenda doc and dot-points of topics to talk about. Example: project, career etc... 
+Here are a couple of key learnings that I hope to apply at my upcoming graduate role.
+
+1. **Meaningful project names matter**, especially as you must become your strongest proponent to have a successful career in Data Science. Pitch your work, sell its importance and increase your visibility. What's the point in doing work if no-one uses it, sees its value, or remembers it? My coach always comes up with a catchy project name that people will remember and could associate to an idea. After tossing around some ideas with my team, I named my project 'Sweet Suite Adoption' - a nod to both the 'sweet' Canva suite and its goal: improving user adoption of those products.
+
+2. **Quantifying impact is difficult as a Data Scientist**, so be proactive and setup regular meetings with stakeholders to discuss the impact of your work. However, make the meeting all about you, and how you can quantify your impact. A better use of both parties' time would be to use the meeting to discuss quantitative insights you've found and how they may be used (e.g. new feature ideas, modifications to existing features). Always follow up with estimated timelines of any new ideas proposed by the other party. For example, I was able to quantify the impact of my research report by hosting a meeting with a product manager, who discussed their new feature idea that my research supported.
+
+3. **Always ask 'so what'?** So what is the impact of the insight? So what is its important? So what can we do about it? These questions are now what I will call the three 'so whats' - which if kept in the forefront of your mind, will keep you on track. While I'm gaining business acumen, it may be difficult to see the big picture, or to tie an insight to some impactful action (what can we do about it?). To remedy this, ask around. Propose the idea to your manager, teammates, and product managers to pick their brain on the insight to see whether it's truly relevant, and can not only be impactful, but deliver **feasible business results**.
+
+4. **Get to know EVERYONE in your team by setting up coffee catchups**. This is definitely one area of improvement. At the conclusion of my internship, I felt comfortable asking for advice from the few teammates I regularly interacted with on the project, but I knew I had missed a major opportunity by not getting to know everyone in my team (atleast) better from the start. **First impressions are key**. Being proactive in setting up coffee catchups to get to know others personally and showing curiosity in their work/roles will help me to feel more welcome (it's really up to me to feel part the team), and have more avenues for support. Seeing other interns (especially Viv) network has really inspired me to do the same.
+
+5. **Come prepared for important meetings with an agenda**. This is one area I did well in. I had a continuous agenda doc that I would prepopulate with topics that I wanted to cover in all my one-on-ones with my manager. The agenda doc wasn't complicated - simply a table with dot-points. I also found that creating and sharing an agenda for important meetings with stakeholders (e.g. product managers), with topics and ideas to already there to discuss really helped in facilitating the conversation. Preparing in this way for my meeting with the AI product manager, and asking my coach to review the agenda helped to demonstrate my professionalism and come out of the meeting with something valuable. Remember, **people are busy, so make the most of the meeting by coming prepared**.
