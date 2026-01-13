@@ -29,7 +29,15 @@ export default {
           ? adapter['auto']
           : adapter['static'],
     prerender: {
-      handleMissingId: 'warn'
+      handleMissingId: 'warn',
+      handleHttpError: ({ path }) => {
+        // Ignore 404 errors for image files during prerender
+        if (path.match(/\.(jpg|jpeg|png|gif|webp|avif|JPG)$/i)) {
+          return 'ignore'
+        }
+        // Fail for other errors
+        return 'fail'
+      }
     },
     csp: {
       mode: 'auto',

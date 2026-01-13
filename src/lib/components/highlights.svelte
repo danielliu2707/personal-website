@@ -1,10 +1,5 @@
 <script lang="ts">
-  export interface Highlight {
-    icon: string
-    title: string
-    description: string
-    link: string
-  }
+  import type { Highlight } from '$lib/types/highlight'
 
   export let highlights: Highlight[] = []
 </script>
