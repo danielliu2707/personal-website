@@ -1,8 +1,8 @@
 import type { LayoutLoad } from './$types'
-import { inject } from '@vercel/analytics'
+import { injectAnalytics } from '@vercel/analytics/sveltekit'
 import { dev } from '$app/environment'
 
-inject({ mode: dev ? 'development' : 'production' })
+injectAnalytics({ mode: dev ? 'development' : 'production' })
 
 export const prerender = true
 export const trailingSlash = 'always'
