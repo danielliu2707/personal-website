@@ -10,7 +10,7 @@
   import Search from '$lib/components/header_search.svelte'
   export let path: string
   let title: string
-  let currentTheme: string
+  let currentTheme: string = 'night'
   let currentThemeColor: string
   let search: boolean = false
   let pin: boolean = true
@@ -39,10 +39,12 @@
         Math.round((scrollY / (document.documentElement.scrollHeight - document.documentElement.clientHeight)) * 10000) / 100
   }
 
-  if (browser)
-    currentTheme =
-      localStorage.getItem('theme') ??
-      (window.matchMedia('(prefers-color-scheme: dark)').matches ? theme?.[1].name : theme[0].name ?? theme[0].name)
+  if (browser) {
+    // Read from HTML attribute set by the blocking script
+    const htmlTheme = document.documentElement.getAttribute('data-theme')
+    // Use the theme from HTML (set by blocking script) or default to 'night'
+    currentTheme = htmlTheme || 'night'
+  }
 </script>
 
 <svelte:head>
@@ -73,8 +75,10 @@
         <div id="change-theme" class="dropdown dropdown-end">
           <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
           <!-- reference: https://github.com/saadeghi/daisyui/issues/1285 -->
-          <div tabindex="0" class="btn btn-square btn-ghost">
+          <div tabindex="0" class="btn btn-ghost gap-2">
             <span class="i-heroicons-outline-color-swatch" />
+            <span class="hidden sm:inline">Theme</span>
+            <span class="i-heroicons-outline-chevron-down" />
           </div>
           <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
           <!-- reference: https://github.com/saadeghi/daisyui/issues/1285 -->
