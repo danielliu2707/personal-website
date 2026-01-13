@@ -66,6 +66,19 @@ export const header: HeaderConfig = {
     {
       text: 'Projects',
       link: '/projects'
+    },
+    {
+      text: 'Course Reflections',
+      children: [
+        {
+          text: 'ThoughtSpot SQL',
+          link: '/courses/thoughtspot'
+        },
+        {
+          text: 'Databricks SQL',
+          link: '/courses/databricks'
+        }
+      ]
     }
   ]
 }

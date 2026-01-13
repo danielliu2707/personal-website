@@ -55,13 +55,14 @@
           <a class="!rounded-btn" class:font-bold={link === path} href={link}>{text}</a>
         </li>
       {:else if children}
-        <li>
-          <span class:font-bold={children.some(({ link }) => link === path)} class="!rounded-btn gap-1">
+        <li class="dropdown">
+          <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+          <div tabindex="0" class:font-bold={children.some(({ link }) => link === path)} class="!rounded-btn gap-1 cursor-pointer">
             {text}
             <span class="i-heroicons-solid-chevron-down -mr-1" />
-          </span>
+          </div>
           <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-          <ul tabindex="0" class="menu rounded-box bg-base-100 text-base-content shadow-lg p-2">
+          <ul tabindex="0" class="menu dropdown-content rounded-box bg-base-100 text-base-content shadow-lg p-2 w-48">
             {#each children as { text, link }}
               <li>
                 <a class:font-bold={link === path} href={link}>{text}</a>
