@@ -56,16 +56,29 @@ export const head: HeadConfig = {}
 export const header: HeaderConfig = {
   nav: [
     {
-      text: 'Resume',
-      link: '/assets/resume.pdf'
-    },
-    {
       text: 'About Me',
       link: '/about_me'
     },
     {
+      text: 'Resume',
+      link: '/assets/resume.pdf'
+    },
+    {
       text: 'Projects',
       link: '/projects'
+    },
+    {
+      text: 'Course Reflections',
+      children: [
+        {
+          text: 'ThoughtSpot SQL',
+          link: '/courses/thoughtspot'
+        },
+        {
+          text: 'Databricks SQL',
+          link: '/courses/databricks'
+        }
+      ]
     }
   ]
 }
