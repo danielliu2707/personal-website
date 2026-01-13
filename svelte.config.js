@@ -25,9 +25,7 @@ export default {
     adapter: 
       process.env.ADAPTER
         ? adapter[process.env.ADAPTER.toLowerCase()]
-        : Object.keys(process.env).some(key => ['VERCEL', 'CF_PAGES', 'NETLIFY', 'GITHUB_ACTION_REPOSITORY', 'SST'].includes(key))
-          ? adapter['auto']
-          : adapter['static'],
+        : adapter['static'],
     prerender: {
       handleMissingId: 'warn',
       handleHttpError: ({ path }) => {
