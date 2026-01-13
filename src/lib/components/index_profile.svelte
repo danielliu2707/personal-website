@@ -19,7 +19,7 @@
         </div>
       {/if}
     </figure>
-    <div class="flex-1 ml-3 md:ml-6">
+    <div class="flex-1 ml-3 md:ml-6highlight">
       <h1 class="text-4xl md:text-5xl font-bold mb-2 p-name">
         Hi, I'm
         <span class="text-primary">
