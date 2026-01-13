@@ -25,11 +25,17 @@ export default {
     adapter: 
       process.env.ADAPTER
         ? adapter[process.env.ADAPTER.toLowerCase()]
-        : Object.keys(process.env).some(key => ['VERCEL', 'CF_PAGES', 'NETLIFY', 'GITHUB_ACTION_REPOSITORY', 'SST'].includes(key))
-          ? adapter['auto']
-          : adapter['static'],
+        : adapter['static'],
     prerender: {
-      handleMissingId: 'warn'
+      handleMissingId: 'warn',
+      handleHttpError: ({ path }) => {
+        // Ignore 404 errors for image files during prerender
+        if (path.match(/\.(jpg|jpeg|png|gif|webp|avif|JPG)$/i)) {
+          return 'ignore'
+        }
+        // Fail for other errors
+        return 'fail'
+      }
     },
     csp: {
       mode: 'auto',
