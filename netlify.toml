@@ -1,8 +1,8 @@
 [build]
-command = "npx pnpm i --store=node_modules/.pnpm-store && npx pnpm build"
+command = "npx pnpm i --store=node_modules/.pnpm-store && pnpm rebuild sharp && npx pnpm build"
 publish = "build"
 [build.environment]
 NPM_FLAGS = "--version"
-AWS_LAMBDA_JS_RUNTIME = "nodejs16.x"
+NODE_VERSION = "24"
 [functions]
 node_bundler = "esbuild"
