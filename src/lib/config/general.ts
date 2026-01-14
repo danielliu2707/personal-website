@@ -60,12 +60,17 @@ export const header: HeaderConfig = {
       link: '/about_me'
     },
     {
-      text: 'Resume',
-      link: '/assets/resume.pdf'
-    },
-    {
       text: 'Projects',
       link: '/projects'
+    },
+    {
+      text: 'Blogs',
+      children: [
+        {
+          text: 'Canva Chronicles',
+          link: '/canva_learnings'
+        }
+      ]
     },
     {
       text: 'Course Reflections',
