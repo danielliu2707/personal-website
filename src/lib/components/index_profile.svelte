@@ -2,7 +2,7 @@
   import { site } from '$lib/config/site'
 </script>
 
-<div class="h-card flex flex-col gap-6 mb-12 mt-10 md:mt-14">
+<div class="h-card flex flex-col gap-6 mb-8 mt-10 md:mt-14">
   <a href={site.protocol + site.domain} class="hidden u-url u-uid">{site.author.name}</a>
   <div class="flex flex-col md:flex-row items-start gap-6">
     <figure class="relative group flex-shrink-0">

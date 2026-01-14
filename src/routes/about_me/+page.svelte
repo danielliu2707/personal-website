@@ -1,7 +1,13 @@
 <script lang="ts">
   import Head from '$lib/components/head.svelte'
 
-  let activeTab: 'experience' | 'extracurriculars' = 'experience'
+  let activeTab: 'experience' | 'education' | 'extracurriculars' = 'experience'
+
+  $: categoryLabel = activeTab === 'experience' 
+    ? 'EXPERIENCE' 
+    : activeTab === 'education' 
+    ? 'EDUCATION' 
+    : 'EXTRACURRICULAR'
 </script>
 
 <Head />
@@ -17,6 +23,14 @@
         class:text-primary={activeTab === 'experience'}
         on:click={() => (activeTab = 'experience')}>
         Experience
+      </button>
+      <button
+        type="button"
+        class="px-4 py-2 rounded-full transition-colors"
+        class:bg-base-100={activeTab === 'education'}
+        class:text-primary={activeTab === 'education'}
+        on:click={() => (activeTab = 'education')}>
+        Education
       </button>
       <button
         type="button"
@@ -38,15 +52,20 @@
             class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm">
           </div>
           <div
-            class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow">
+            class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow relative">
+            <div class="absolute top-4 right-4">
+              <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
+                {categoryLabel}
+              </span>
+            </div>
             <div class="p-5 md:p-6">
               <p class="text-xs uppercase tracking-wide text-primary font-semibold">
                 Feb 2026 - Present
               </p>
-              <h2 class="text-lg md:text-xl font-semibold mt-1">
+              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">
                 Data Science Associate · Atlassian
               </h2>
-              <p class="text-sm text-base-content/70 mt-3">
+              <p class="text-sm md:text-base text-base-content/80 mt-4 leading-relaxed">
                 Coming soon!
               </p>
             </div>
@@ -59,24 +78,29 @@
             class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm">
           </div>
           <div
-            class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow">
+            class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow relative">
+            <div class="absolute top-4 right-4">
+              <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
+                {categoryLabel}
+              </span>
+            </div>
             <div class="p-5 md:p-6">
               <p class="text-xs uppercase tracking-wide text-primary font-semibold">
                 Feb 2025 - Dec 2025
               </p>
-              <h2 class="text-lg md:text-xl font-semibold mt-1">
+              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">
                 Junior Data Scientist · Acenda
               </h2>
-              <p class="text-sm text-base-content/70 mt-3">
-                Applied AWS machine learning services to build and improve ML models for Kiroku: Acenda's automated customer document processing
-                system.
+              <p class="text-sm md:text-base text-base-content/80 mt-4 leading-relaxed">
+                Built ML models in the AI team using AWS for an automated customer document processing system.
+
               </p>
-              <ul class="list-none text-sm text-base-content/70 mt-3 space-y-1">
+              <ul class="list-none text-sm md:text-base text-base-content/80 mt-4 space-y-2">
                 <li class="flex gap-2 items-baseline">
                   <span class="text-primary font-semibold">&raquo;</span>
                   <span>
-                    Boosted claims data extraction accuracy by 13.8% by redesigning the text extraction and training pipeline
-                    for a custom NER model used to process customer claim documents
+                    Improved entity extraction accuracy on customer claims documents by 13.8% by redesigning the text extraction and training pipeline
+                    for the ML model.
                     <a href="https://www.canva.com/design/DAGqYW-nyug/cgc3hXV59Okbcmns92ybRw/edit?utm_content=DAGqYW-nyug&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank" rel="noopener noreferrer" class="link link-primary font-medium hover:underline">
                       (presentation)
                     </a>
@@ -84,7 +108,7 @@
                 </li>
                 <li class="flex gap-2 items-baseline">
                   <span class="text-primary font-semibold">&raquo;</span>
-                  <span>Owned small experiments end-to-end: problem framing, modelling, and evaluation.</span>
+                  <span>Increased policy number extraction accuracy on customer policy documents by 10.1% by uncovering dataset bias and introducing diverse training data to improve model robustness.</span>
                 </li>
               </ul>
             </div>
@@ -97,90 +121,193 @@
             class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm">
           </div>
           <div
-            class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow">
+            class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow relative">
+            <div class="absolute top-4 right-4">
+              <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
+                {categoryLabel}
+              </span>
+            </div>
             <div class="p-5 md:p-6">
               <p class="text-xs uppercase tracking-wide text-primary font-semibold">
-                Feb 2024 - Sep 2025
+                Dec 2024 - Feb 2025
               </p>
-              <h2 class="text-lg md:text-xl font-semibold mt-1">
-                Applied Scientist · Canva
+              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">
+                Data Science Intern · Canva
               </h2>
-              <p class="text-sm text-base-content/70 mt-3">
-                Worked across generative imaging features and applied ML systems, from prototype models to
-                shipped product. Learned how to translate research ideas into delightful, reliable UX.
+              <p class="text-sm md:text-base text-base-content/80 mt-4 leading-relaxed">
+                Product analytics and user interviews with the Canva Docs team to increase usage of the product.
               </p>
-              <ul class="list-none text-sm text-base-content/70 mt-3 space-y-1">
+              <ul class="list-none text-sm md:text-base text-base-content/80 mt-4 space-y-2">
                 <li class="flex gap-2 items-baseline">
                   <span class="text-primary font-semibold">&raquo;</span>
-                  <span>Collaborated with engineers, designers, and PMs to ship ML-powered features.</span>
+                  <span>Shaped the team's cross-product adoption strategy by leading external user interviews and authoring a
+                    research report with product recommendations, garnering 200+ internal views and 30+ comments.</span>
                 </li>
                 <li class="flex gap-2 items-baseline">
                   <span class="text-primary font-semibold">&raquo;</span>
-                  <span>Owned small experiments end-to-end: problem framing, modelling, and evaluation.</span>
+                  <span>Researched data-driven product adoption strategies to influence stakeholder decisions around
+                    boosting Canva Docs usage, resulting in a prototype for experimentation.</span>
                 </li>
               </ul>
             </div>
           </div>
         </article>
 
-        <!-- Canva – Data Science Intern -->
+        <!-- Newmont -->
         <article class="relative">
           <div
             class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm">
           </div>
           <div
-            class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow">
+            class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow relative">
+            <div class="absolute top-4 right-4">
+              <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
+                {categoryLabel}
+              </span>
+            </div>
             <div class="p-5 md:p-6">
               <p class="text-xs uppercase tracking-wide text-primary font-semibold">
                 Nov 2023 - Feb 2024
               </p>
-              <h2 class="text-lg md:text-xl font-semibold mt-1">
-                Data Science Intern · Canva
+              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">
+                Data Science Intern · Newmont
               </h2>
-              <p class="text-sm text-base-content/70 mt-3">
-                My first taste of large-scale product analytics and experimentation. I spent most of my time
-                deep in SQL, dashboards, and documentation.
+              <p class="text-sm md:text-base text-base-content/80 mt-4 leading-relaxed">
+                Developed data solutions to improve safety and efficiency in mining operations.
               </p>
-              <ul class="list-none text-sm text-base-content/70 mt-3 space-y-1">
+              <ul class="list-none text-sm md:text-base text-base-content/80 mt-4 space-y-2">
                 <li class="flex gap-2 items-baseline">
                   <span class="text-primary font-semibold">&raquo;</span>
-                  <span>Shipped analyses that informed growth and product decisions.</span>
+                  <span>Improved safety monitoring for geotech engineers by productionalising a PowerBI dashboard based on industry barrier management regulations.</span>
                 </li>
                 <li class="flex gap-2 items-baseline">
                   <span class="text-primary font-semibold">&raquo;</span>
-                  <span>Built reusable SQL and metrics definitions for the broader team.</span>
+                  <span>Streamlined machinery defect identification by creating a PowerApp, eliminating manual paper defect records.</span>
+                </li>
+                <li class="flex gap-2 items-baseline">
+                  <span class="text-primary font-semibold">&raquo;</span>
+                  <span>Identified the top causes and required actions for disruptions to mining processes using natural language processing in Python.</span>
                 </li>
               </ul>
             </div>
           </div>
         </article>
 
+        <!-- MRPV -->
+        <article class="relative">
+          <div
+            class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm">
+          </div>
+          <div
+            class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow relative">
+            <div class="absolute top-4 right-4">
+              <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
+                {categoryLabel}
+              </span>
+            </div>
+            <div class="p-5 md:p-6">
+              <p class="text-xs uppercase tracking-wide text-primary font-semibold">
+                Jan 2023 - Jul 2023
+              </p>
+              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">
+                Data Analytics Intern · MRPV
+              </h2>
+              <p class="text-sm md:text-base text-base-content/80 mt-4 leading-relaxed">
+                Supported the team's data analysis and HR reporting needs.
+              </p>
+              <ul class="list-none text-sm md:text-base text-base-content/80 mt-4 space-y-2">
+                <li class="flex gap-2 items-baseline">
+                  <span class="text-primary font-semibold">&raquo;</span>
+                  <span>Automated HR's employee report generation using Pandas and OpenPyXL for internal stakeholders.</span>
+                </li>
+                <li class="flex gap-2 items-baseline">
+                  <span class="text-primary font-semibold">&raquo;</span>
+                  <span>Produced stakeholder reports using Python and Excel to provide insights on over 600 employees.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+  {:else if activeTab === 'education'}
+    <section aria-label="Education timeline">
+      <div class="relative border-l border-base-content/15 pl-6 space-y-10">
         <!-- Monash -->
         <article class="relative">
           <div
             class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm">
           </div>
           <div
-            class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow">
+            class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow relative">
+            <div class="absolute top-4 right-4">
+              <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
+                {categoryLabel}
+              </span>
+            </div>
             <div class="p-5 md:p-6">
               <p class="text-xs uppercase tracking-wide text-primary font-semibold">
-                2021 - 2024
+                2022 - 2025
               </p>
-              <h2 class="text-lg md:text-xl font-semibold mt-1">
-                B.CompSci / B.Com · Monash University
+              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">
+                B.CompSci (Data Science) / B.Com (Business Analytics) · Monash University
               </h2>
-              <p class="text-sm text-base-content/70 mt-3">
-                Studied Computer Science and Commerce (Data Science & Business Analytics), while getting
-                heavily involved in the Computing & Commerce Association.
+              <p class="text-sm md:text-base text-base-content/80 mt-4 leading-relaxed">
+                Built a foundation in statistics, data analysis, and machine learning.
               </p>
-              <ul class="list-none text-sm text-base-content/70 mt-3 space-y-1">
+              <ul class="list-none text-sm md:text-base text-base-content/80 mt-4 space-y-2">
                 <li class="flex gap-2 items-baseline">
                   <span class="text-primary font-semibold">&raquo;</span>
-                  <span>Held committee roles in a large student society (treasurer, marketing, sponsorship).</span>
+                  <span>WAM 88.27 / 4.0 GPA.</span>
                 </li>
                 <li class="flex gap-2 items-baseline">
                   <span class="text-primary font-semibold">&raquo;</span>
-                  <span>Built a foundation in statistics, machine learning, and software engineering.</span>
+                  <span>Awarded the IT Excellence Scholarship ($24,000) and IBL Placement Scholarship ($19,000).</span>
+                </li>
+                <li class="flex gap-2 items-baseline">
+                  <span class="text-primary font-semibold">&raquo;</span>
+                  <span>Top scorer in Statistical Machine Learning (Unit Prize, 2025).</span>
+                </li>
+                <li class="flex gap-2 items-baseline">
+                  <span class="text-primary font-semibold">&raquo;</span>
+                  <span>Top scorer in Introduction to Data Analysis (Unit Prize, 2024).</span>
+                </li>
+                <li class="flex gap-2 items-baseline">
+                  <span class="text-primary font-semibold">&raquo;</span>
+                  <span>Selected for the Monash Minds Leadership Program (Top 1% of first-year students).</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- Rossmoyne Senior High School -->
+        <article class="relative">
+          <div
+            class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm">
+          </div>
+          <div
+            class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow relative">
+            <div class="absolute top-4 right-4">
+              <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
+                {categoryLabel}
+              </span>
+            </div>
+            <div class="p-5 md:p-6">
+              <p class="text-xs uppercase tracking-wide text-primary font-semibold">
+                2016 - 2021
+              </p>
+              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">
+                Rossmoyne Senior High School
+              </h2>
+              <p class="text-sm md:text-base text-base-content/80 mt-4 leading-relaxed">
+                Completed secondary education.
+              </p>
+              <ul class="list-none text-sm md:text-base text-base-content/80 mt-4 space-y-2">
+                <li class="flex gap-2 items-baseline">
+                  <span class="text-primary font-semibold">&raquo;</span>
+                  <span>ATAR: 99.60</span>
                 </li>
               </ul>
             </div>
@@ -191,64 +318,112 @@
   {:else}
     <section aria-label="Extracurricular timeline">
       <div class="relative border-l border-base-content/15 pl-6 space-y-10">
-        <!-- CCA leadership -->
+        <!-- MAC -->
         <article class="relative">
           <div
             class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm">
           </div>
           <div
-            class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow">
+            class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow relative">
+            <div class="absolute top-4 right-4">
+              <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
+                {categoryLabel}
+              </span>
+            </div>
             <div class="p-5 md:p-6">
               <p class="text-xs uppercase tracking-wide text-primary font-semibold">
-                2022 - 2024
+                Dec 2023 - Dec 2025
               </p>
-              <h2 class="text-lg md:text-xl font-semibold mt-1">
-                Computing & Commerce Association · Committee Member
+              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">
+                Committee Officer · Monash Association of Coding
               </h2>
-              <p class="text-sm text-base-content/70 mt-3">
-                Helped run one of Monash's largest student societies, focusing on events, sponsorship,
-                and community for students interested in tech and business.
+              <p class="text-sm md:text-base text-base-content/80 mt-4 leading-relaxed">
+                Served as a panelist at Monash tech community events and promoted coding events to increase student participation.
               </p>
-              <ul class="list-none text-sm text-base-content/70 mt-3 space-y-1">
+              <ul class="list-none text-sm md:text-base text-base-content/80 mt-4 space-y-2">
                 <li class="flex gap-2 items-baseline">
                   <span class="text-primary font-semibold">&raquo;</span>
-                  <span>Held roles across treasury, marketing, and sponsorship.</span>
+                  <span>Marketing Officer (Dec 2024 - Dec 2025).</span>
                 </li>
                 <li class="flex gap-2 items-baseline">
                   <span class="text-primary font-semibold">&raquo;</span>
-                  <span>Coordinated events that connected students with industry partners.</span>
+                  <span>Sponsorship Officer (Dec 2023 - Dec 2024).</span>
                 </li>
               </ul>
             </div>
           </div>
         </article>
 
-        <!-- Personal projects / writing -->
+        <!-- CCA -->
         <article class="relative">
           <div
             class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm">
           </div>
           <div
-            class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow">
+            class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow relative">
+            <div class="absolute top-4 right-4">
+              <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
+                {categoryLabel}
+              </span>
+            </div>
             <div class="p-5 md:p-6">
               <p class="text-xs uppercase tracking-wide text-primary font-semibold">
-                Ongoing
+                Apr 2022 - Dec 2025
               </p>
-              <h2 class="text-lg md:text-xl font-semibold mt-1">
-                Personal Projects & Writing
+              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">
+                Committee Executive · Computing & Commerce Association
               </h2>
-              <p class="text-sm text-base-content/70 mt-3">
-                Building small tools, writing reflections, and sharing learnings about careers,
-                data science, and software engineering.
+              <p class="text-sm md:text-base text-base-content/80 mt-4 leading-relaxed">
+                Run one of Monash's largest student societies; focusing on tech and business events.
               </p>
-              <ul class="list-none text-sm text-base-content/70 mt-3 space-y-1">
+              <ul class="list-none text-sm md:text-base text-base-content/80 mt-4 space-y-2">
                 <li class="flex gap-2 items-baseline">
                   <span class="text-primary font-semibold">&raquo;</span>
-                  <span>Maintain this website as a living portfolio and writing outlet.</span>
+                  <span>Publications Officer (Dec 2024 - Nov 2025).</span>
                 </li>
                 <li class="flex gap-2 items-baseline">
                   <span class="text-primary font-semibold">&raquo;</span>
-                  <span>Experiment with new stacks and ML ideas outside of work.</span>
+                  <span>Treasurer (Dec 2023 - Nov 2024).</span>
+                </li>
+                <li class="flex gap-2 items-baseline">
+                  <span class="text-primary font-semibold">&raquo;</span>
+                  <span>Sponsorship Officer (Dec 2022 - Nov 2023).</span>
+                </li>
+                <li class="flex gap-2 items-baseline">
+                  <span class="text-primary font-semibold">&raquo;</span>
+                  <span>First Year Representative (Apr 2022 - Nov 2022).</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- Vinnies -->
+        <article class="relative">
+          <div
+            class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm">
+          </div>
+          <div
+            class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow relative">
+            <div class="absolute top-4 right-4">
+              <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
+                {categoryLabel}
+              </span>
+            </div>
+            <div class="p-5 md:p-6">
+              <p class="text-xs uppercase tracking-wide text-primary font-semibold">
+                Nov 2019 - Feb 2021
+              </p>
+              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">
+                Retail Volunteer · Vinnies Australia
+              </h2>
+              <p class="text-sm md:text-base text-base-content/80 mt-4 leading-relaxed">
+                Volunteered to support poverty alleviation efforts through retail operations.
+              </p>
+              <ul class="list-none text-sm md:text-base text-base-content/80 mt-4 space-y-2">
+                <li class="flex gap-2 items-baseline">
+                  <span class="text-primary font-semibold">&raquo;</span>
+                  <span>Sorted through donations, organized stock, and provided customer service.</span>
                 </li>
               </ul>
             </div>

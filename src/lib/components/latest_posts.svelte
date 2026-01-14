@@ -13,9 +13,9 @@
 </script>
 
 {#if posts.length > 0}
-  <section class="mb-16">
+  <section class="mb-0">
     {#if showHeader}
-      <div class="flex justify-between items-center mb-6">
+      <div class="flex justify-between items-center mb-8">
         <h2 class="text-3xl font-bold">Latest Posts</h2>
         {#if showViewAll}
           <a href="/posts" class="btn btn-primary btn-sm normal-case gap-2 shadow-md hover:shadow-lg transition-all">

@@ -8,8 +8,8 @@
 </script>
 
 {#if posts.length > 0}
-  <section class="mb-16">
-    <h2 class="text-3xl font-bold mb-6">Featured Posts</h2>
+  <section class="mb-0">
+    <h2 class="text-3xl font-bold mb-8">Featured Posts</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       {#each posts.slice(0, 3) as post}
         <a

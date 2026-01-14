@@ -48,19 +48,23 @@
 
   <!-- Featured Posts Section -->
   {#if featuredPosts.length > 0}
-    <FeaturedPosts posts={featuredPosts} />
+    <div class="pt-8 md:pt-12 border-t border-base-content/10">
+      <FeaturedPosts posts={featuredPosts} />
+    </div>
   {/if}
 
   <!-- Highlights Section -->
-  <div class="mt-10">
+  <div class="pt-12 md:pt-16 border-t border-base-content/10">
     <Highlights {highlights} />
   </div>
 
   <!-- Latest Posts Section -->
-  <LatestPosts posts={allPosts} limit={4} />
+  <div class="pt-12 md:pt-16">
+    <LatestPosts posts={allPosts} limit={4} />
+  </div>
 
   <!-- Footer -->
-  <div class="mt-16">
+  <div class="mt-20 pt-12 border-t border-base-content/10">
     <Footer />
   </div>
 </div>

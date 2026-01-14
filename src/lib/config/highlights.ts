@@ -4,12 +4,12 @@ export const highlights: Highlight[] = [
   {
     icon: '👤',
     title: 'About Me',
-    description: 'Learn more about me, my background, and interests.',
+    description: 'Learn about my professional background and interests.',
     link: '/about_me'
   },
   {
     icon: '💼',
-    title: 'Portfolio',
+    title: 'Projects',
     description: 'Explore my personal projects built for fun and learning.',
     link: '/projects'
   },

@@ -52,12 +52,12 @@
     {#each nav as { text, link, children }}
       {#if link && !children}
         <li>
-          <a class="!rounded-btn" class:font-bold={link === path} href={link}>{text}</a>
+          <a class="!rounded-btn whitespace-nowrap" class:font-bold={link === path} href={link}>{text}</a>
         </li>
       {:else if children}
         <li class="dropdown">
           <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-          <div tabindex="0" class:font-bold={children.some(({ link }) => link === path)} class="!rounded-btn gap-1 cursor-pointer">
+          <div tabindex="0" class:font-bold={children.some(({ link }) => link === path)} class="!rounded-btn gap-1 cursor-pointer whitespace-nowrap">
             {text}
             <span class="i-heroicons-solid-chevron-down -mr-1" />
           </div>
