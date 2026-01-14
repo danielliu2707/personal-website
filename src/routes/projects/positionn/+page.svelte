@@ -2,7 +2,7 @@
   import Head from '$lib/components/head.svelte'
   import Footer from '$lib/components/footer.svelte'
 
-  const API_BASE = 'https://positionn-api.onrender.com'
+  const API_BASE = 'https://positionn-api.fly.dev'
 
   type Mode = 'stats' | 'dimensions'
 
