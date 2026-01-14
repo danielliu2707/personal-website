@@ -21,7 +21,6 @@
   // Dimensions inputs
   let height_cm = 180
   let weight_kg = 75
-  let wingspan_cm = 185
 
   let result:
     | {
@@ -32,27 +31,89 @@
       }
     | null = null
 
+  let fieldErrors = {
+    points: '',
+    rebounds: '',
+    assists: '',
+    steals: '',
+    blocks: '',
+    turnovers: '',
+    height_cm: '',
+    weight_kg: ''
+  }
+
   async function predict() {
     loading = true
     error = null
     result = null
+    fieldErrors = {
+      points: '',
+      rebounds: '',
+      assists: '',
+      steals: '',
+      blocks: '',
+      turnovers: '',
+      height_cm: '',
+      weight_kg: ''
+    }
 
     const endpoint = mode === 'stats' ? '/predict/stats' : '/predict/dimensions'
+
+    // Coerce values to numbers
+    const p = Number(points)
+    const r = Number(rebounds)
+    const a = Number(assists)
+    const s = Number(steals)
+    const b = Number(blocks)
+    const t = Number(turnovers)
+    const h = Number(height_cm)
+    const w = Number(weight_kg)
+
+    // Frontend validation with per-field errors
+    if (Number.isNaN(p) || p < 0 || p > 80) {
+      fieldErrors.points = 'Value must be between 0 and 80.'
+    }
+    if (Number.isNaN(r) || r < 0 || r > 40) {
+      fieldErrors.rebounds = 'Value must be between 0 and 40.'
+    }
+    if (Number.isNaN(a) || a < 0 || a > 30) {
+      fieldErrors.assists = 'Value must be between 0 and 30.'
+    }
+    if (Number.isNaN(s) || s < 0 || s > 20) {
+      fieldErrors.steals = 'Value must be between 0 and 20.'
+    }
+    if (Number.isNaN(b) || b < 0 || b > 20) {
+      fieldErrors.blocks = 'Value must be between 0 and 20.'
+    }
+    if (Number.isNaN(t) || t < 0 || t > 20) {
+      fieldErrors.turnovers = 'Value must be between 0 and 20.'
+    }
+    if (Number.isNaN(h) || h < 100 || h > 250) {
+      fieldErrors.height_cm = 'Value must be between 100 and 250 cm.'
+    }
+    if (Number.isNaN(w) || w < 30 || w > 250) {
+      fieldErrors.weight_kg = 'Value must be between 30 and 250 kg.'
+    }
+
+    if (Object.values(fieldErrors).some(message => message && message.length > 0)) {
+      error = 'Please fix the highlighted fields before predicting.'
+      loading = false
+      return
+    }
 
     const body =
       mode === 'stats'
         ? {
-            points,
-            rebounds,
-            assists,
-            steals,
-            blocks,
-            turnovers
+            points: p,
+            rebounds: r,
+            assists: a,
+            steals: s,
+            blocks: b,
+            turnovers: t
           }
         : {
-            height_cm,
-            weight_kg,
-            wingspan_cm
+            height_cm: h,
+            weight_kg: w
           }
 
     try {
@@ -118,86 +179,182 @@
       <!-- Stats form -->
       <div class="grid md:grid-cols-3 gap-4">
         <div>
-          <label class="label-text block mb-1" for="points">Points per game</label>
+          <label class="label-text block mb-1" for="points">
+            Points per game
+            <span
+              class="i-heroicons-information-circle text-xs text-base-content/60 ml-1 align-middle"
+              title="Enter a value between 0 and 80" />
+          </label>
           <input
             id="points"
             class="input input-bordered w-full"
             type="number"
             step="0.1"
+            min="0"
+            max="80"
             bind:value={points} />
+          {#if fieldErrors.points}
+            <p class="mt-1 text-xs text-error flex items-center gap-1">
+              <span class="i-heroicons-exclamation-circle w-3 h-3" />
+              {fieldErrors.points}
+            </p>
+          {/if}
         </div>
         <div>
-          <label class="label-text block mb-1" for="rebounds">Rebounds per game</label>
+          <label class="label-text block mb-1" for="rebounds">
+            Rebounds per game
+            <span
+              class="i-heroicons-information-circle text-xs text-base-content/60 ml-1 align-middle"
+              title="Enter a value between 0 and 40" />
+          </label>
           <input
             id="rebounds"
             class="input input-bordered w-full"
             type="number"
             step="0.1"
+            min="0"
+            max="40"
             bind:value={rebounds} />
+          {#if fieldErrors.rebounds}
+            <p class="mt-1 text-xs text-error flex items-center gap-1">
+              <span class="i-heroicons-exclamation-circle w-3 h-3" />
+              {fieldErrors.rebounds}
+            </p>
+          {/if}
         </div>
         <div>
-          <label class="label-text block mb-1" for="assists">Assists per game</label>
+          <label class="label-text block mb-1" for="assists">
+            Assists per game
+            <span
+              class="i-heroicons-information-circle text-xs text-base-content/60 ml-1 align-middle"
+              title="Enter a value between 0 and 30" />
+          </label>
           <input
             id="assists"
             class="input input-bordered w-full"
             type="number"
             step="0.1"
+            min="0"
+            max="30"
             bind:value={assists} />
+          {#if fieldErrors.assists}
+            <p class="mt-1 text-xs text-error flex items-center gap-1">
+              <span class="i-heroicons-exclamation-circle w-3 h-3" />
+              {fieldErrors.assists}
+            </p>
+          {/if}
         </div>
         <div>
-          <label class="label-text block mb-1" for="steals">Steals per game</label>
+          <label class="label-text block mb-1" for="steals">
+            Steals per game
+            <span
+              class="i-heroicons-information-circle text-xs text-base-content/60 ml-1 align-middle"
+              title="Enter a value between 0 and 20" />
+          </label>
           <input
             id="steals"
             class="input input-bordered w-full"
             type="number"
             step="0.1"
+            min="0"
+            max="20"
             bind:value={steals} />
+          {#if fieldErrors.steals}
+            <p class="mt-1 text-xs text-error flex items-center gap-1">
+              <span class="i-heroicons-exclamation-circle w-3 h-3" />
+              {fieldErrors.steals}
+            </p>
+          {/if}
         </div>
         <div>
-          <label class="label-text block mb-1" for="blocks">Blocks per game</label>
+          <label class="label-text block mb-1" for="blocks">
+            Blocks per game
+            <span
+              class="i-heroicons-information-circle text-xs text-base-content/60 ml-1 align-middle"
+              title="Enter a value between 0 and 20" />
+          </label>
           <input
             id="blocks"
             class="input input-bordered w-full"
             type="number"
             step="0.1"
+            min="0"
+            max="20"
             bind:value={blocks} />
+          {#if fieldErrors.blocks}
+            <p class="mt-1 text-xs text-error flex items-center gap-1">
+              <span class="i-heroicons-exclamation-circle w-3 h-3" />
+              {fieldErrors.blocks}
+            </p>
+          {/if}
         </div>
         <div>
-          <label class="label-text block mb-1" for="turnovers">Turnovers per game</label>
+          <label class="label-text block mb-1" for="turnovers">
+            Turnovers per game
+            <span
+              class="i-heroicons-information-circle text-xs text-base-content/60 ml-1 align-middle"
+              title="Enter a value between 0 and 20" />
+          </label>
           <input
             id="turnovers"
             class="input input-bordered w-full"
             type="number"
             step="0.1"
+            min="0"
+            max="20"
             bind:value={turnovers} />
+          {#if fieldErrors.turnovers}
+            <p class="mt-1 text-xs text-error flex items-center gap-1">
+              <span class="i-heroicons-exclamation-circle w-3 h-3" />
+              {fieldErrors.turnovers}
+            </p>
+          {/if}
         </div>
       </div>
     {:else}
       <!-- Dimensions form -->
       <div class="grid md:grid-cols-3 gap-4">
         <div>
-          <label class="label-text block mb-1" for="height_cm">Height (cm)</label>
+          <label class="label-text block mb-1" for="height_cm">
+            Height (cm)
+            <span
+              class="i-heroicons-information-circle text-xs text-base-content/60 ml-1 align-middle"
+              title="Enter a value between 100 and 250 cm" />
+          </label>
           <input
             id="height_cm"
             class="input input-bordered w-full"
             type="number"
+            min="100"
+            max="250"
             bind:value={height_cm} />
+          {#if fieldErrors.height_cm}
+            <p class="mt-1 text-xs text-error flex items-center gap-1">
+              <span class="i-heroicons-exclamation-circle w-3 h-3" />
+              {fieldErrors.height_cm}
+            </p>
+          {/if}
         </div>
         <div>
-          <label class="label-text block mb-1" for="weight_kg">Weight (kg)</label>
+          <label class="label-text block mb-1" for="weight_kg">
+            Weight (kg)
+            <span
+              class="i-heroicons-information-circle text-xs text-base-content/60 ml-1 align-middle"
+              title="Enter a value between 30 and 250 kg" />
+          </label>
           <input
             id="weight_kg"
             class="input input-bordered w-full"
             type="number"
+            min="30"
+            max="250"
             bind:value={weight_kg} />
-        </div>
-        <div>
-          <label class="label-text block mb-1" for="wingspan_cm">Wingspan (cm)</label>
-          <input
-            id="wingspan_cm"
-            class="input input-bordered w-full"
-            type="number"
-            bind:value={wingspan_cm} />
+          {#if fieldErrors.weight_kg}
+            <p class="mt-1 text-xs text-error flex items-center gap-1">
+              <span class="i-heroicons-exclamation-circle w-3 h-3" />
+              {fieldErrors.weight_kg}
+            </p>
+          {/if}
         </div>
       </div>
     {/if}
