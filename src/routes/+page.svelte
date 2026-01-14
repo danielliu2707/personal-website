@@ -10,6 +10,7 @@
   import Profile from '$lib/components/index_profile.svelte'
   import FeaturedPosts from '$lib/components/featured_posts.svelte'
   import Highlights from '$lib/components/highlights.svelte'
+  import Apps from '$lib/components/apps.svelte'
   import LatestPosts from '$lib/components/latest_posts.svelte'
   import { highlights } from '$lib/config/highlights'
 
@@ -56,6 +57,11 @@
   <!-- Highlights Section -->
   <div class="pt-12 md:pt-16 border-t border-base-content/10">
     <Highlights {highlights} />
+  </div>
+
+  <!-- Apps Section -->
+  <div class="pt-12 md:pt-16 border-t border-base-content/10">
+    <Apps />
   </div>
 
   <!-- Latest Posts Section -->

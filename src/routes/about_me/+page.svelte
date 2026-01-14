@@ -7,7 +7,7 @@
     ? 'EXPERIENCE' 
     : activeTab === 'education' 
     ? 'EDUCATION' 
-    : 'EXTRACURRICULAR'
+    : 'EXTRAS'
 </script>
 
 <Head />
