@@ -65,7 +65,7 @@
       </div>
       
       <h2 class="text-xl md:text-2xl font-semibold text-base-content/90 mt-3">
-        A Data Scientist at Atlassian
+        An incoming Data Scientist at Atlassian
       </h2>
       <p class="text-sm md:text-base text-base-content/70 mt-3">
         Welcome to my career synposis. Here, you will find my <br>
