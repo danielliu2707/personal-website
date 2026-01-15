@@ -27,6 +27,9 @@
         position: string
         probability: number
         twin: string
+        // Optional fields that can be returned by the API
+        season?: string
+        headshot_url?: string
         twin_stats: Record<string, number | string>
       }
     | null = null
@@ -378,7 +381,7 @@
 
   {#if result}
     <section class="space-y-4">
-      <div>
+      <div class="rounded-2xl bg-base-200/40 border border-base-content/10 p-4 md:p-6 space-y-4">
         <p class="text-sm text-base-content/70 mb-1">Your Basketball Analysis</p>
         <p class="text-lg md:text-xl">
           You project as a
@@ -389,11 +392,25 @@
         </p>
       </div>
 
-      <div class="rounded-2xl bg-base-200/40 border border-base-content/10 p-4 md:p-5 space-y-4">
+      <div class="rounded-2xl bg-base-200/40 border border-base-content/10 p-4 md:p-6 space-y-4">
         <h2 class="text-base md:text-lg font-semibold">NBA Player Comparison</h2>
-        <p class="font-medium">
-          {result.twin}
+
+        <p class="font-medium text-lg">
+          {#if result.season}
+            {result.season} {result.twin}
+          {:else}
+            {result.twin}
+          {/if}
         </p>
+
+        {#if result.headshot_url}
+          <div class="flex justify-center">
+            <img
+              src={result.headshot_url}
+              alt={result.twin}
+              class="max-h-64 w-auto object-contain rounded-xl shadow-md" />
+          </div>
+        {/if}
 
         {#if result.twin_stats}
           <div class="overflow-x-auto">
