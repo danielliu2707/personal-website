@@ -48,6 +48,30 @@
     return `https://www.nba.com/stats/player/${playerId}`
   }
 
+  function statMeta(statKey: string) {
+    const key = statKey.toLowerCase()
+    if (key.includes('point')) {
+      return { icon: 'i-heroicons-solid-sparkles', label: 'Points' }
+    }
+    if (key.includes('assist')) {
+      return { icon: 'i-heroicons-solid-user-group', label: 'Assists' }
+    }
+    if (key.includes('rebound') || key.includes('reb')) {
+      // Use a different, more obvious icon for rebounds
+      return { icon: 'i-heroicons-solid-arrow-up-on-square-stack', label: 'Rebounds' }
+    }
+    if (key.includes('steal')) {
+      return { icon: 'i-heroicons-solid-finger-print', label: 'Steals' }
+    }
+    if (key.includes('block')) {
+      return { icon: 'i-heroicons-solid-shield-check', label: 'Blocks' }
+    }
+    if (key.includes('turnover')) {
+      return { icon: 'i-heroicons-solid-arrow-uturn-right', label: 'Turnovers' }
+    }
+    return { icon: '', label: statKey.replace(/_/g, ' ') }
+  }
+
   function onHeadshotError(event: Event) {
     // If a headshot isn't available for this player_id, hide the image gracefully.
     const img = event.currentTarget
@@ -415,13 +439,25 @@
   {#if result}
     <section class="space-y-6 animate-in fade-in duration-500">
       <!-- Position Prediction Card -->
-      <div class="rounded-2xl bg-gradient-to-br from-primary/20 via-secondary/10 to-accent/10 border-2 border-primary/30 shadow-xl p-6 md:p-8 space-y-6">
-        <div class="flex items-center gap-3 mb-2">
-          <span class="text-3xl">🏀</span>
-          <p class="text-sm uppercase tracking-wide text-base-content/60 font-semibold">Your Basketball Analysis</p>
+      <div
+        class="relative overflow-hidden rounded-2xl border-2 border-primary/30 shadow-xl p-6 md:p-8 space-y-6 bg-base-900/80">
+        <!-- Background image + gradient overlay -->
+        <div class="absolute inset-0 pointer-events-none">
+          <div
+            class="w-full h-full bg-[url('/assets/basketbackgroundpositionn.jpeg')] bg-cover bg-center opacity-40" />
+          <div
+            class="absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/10 to-accent/10 opacity-70" />
         </div>
-        
-        <div class="space-y-4">
+
+        <!-- Foreground content -->
+        <div class="relative space-y-4">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="text-3xl">🏀</span>
+            <p class="text-sm uppercase tracking-wide text-base-content/80 font-semibold">
+              Your Basketball Analysis
+            </p>
+          </div>
+
           <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <p class="text-base text-base-content/70 mb-2">You project as a</p>
@@ -515,26 +551,31 @@
           <!-- Stats Table -->
           {#if result.twin_stats}
             <div class="flex-1 w-full space-y-4">
-              <div>
-                <p class="text-sm font-semibold text-base-content/80 mb-3">Season Statistics</p>
-                <div class="overflow-x-auto">
-                  <table class="table table-zebra w-full">
-                    <thead>
-                      <tr class="bg-base-200">
-                        <th class="font-semibold">Statistic</th>
-                        <th class="font-semibold text-right">Per Game</th>
+              <div class="overflow-x-auto">
+                <table class="table table-zebra w-full">
+                  <thead>
+                    <tr class="bg-base-200">
+                      <th class="font-semibold">Season Statistics</th>
+                      <th class="font-semibold text-right">Per Game</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {#each Object.entries(result.twin_stats) as [stat, value]}
+                      {@const meta = statMeta(stat)}
+                      <tr>
+                        <td class="capitalize font-medium">
+                          <div class="flex items-center gap-2">
+                            {#if meta.icon}
+                              <span class={`${meta.icon} w-4 h-4 text-primary`} />
+                            {/if}
+                            <span>{meta.label}</span>
+                          </div>
+                        </td>
+                        <td class="text-right font-semibold">{value}</td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {#each Object.entries(result.twin_stats) as [stat, value]}
-                        <tr>
-                          <td class="capitalize font-medium">{stat.replace(/_/g, ' ')}</td>
-                          <td class="text-right font-semibold">{value}</td>
-                        </tr>
-                      {/each}
-                    </tbody>
-                  </table>
-                </div>
+                    {/each}
+                  </tbody>
+                </table>
               </div>
 
               {#if result.twin?.player_id}

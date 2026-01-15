@@ -64,6 +64,15 @@ export const header: HeaderConfig = {
       link: '/projects'
     },
     {
+      text: 'Apps',
+      children: [
+        {
+          text: 'Positionn',
+          link: '/projects/positionn'  //  Different route on webpage. Navigate user to the app.
+        }
+      ]
+    },
+    {
       text: 'Blogs',
       children: [
         {

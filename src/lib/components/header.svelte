@@ -59,14 +59,14 @@
   class="fixed z-50 w-full transition-all duration-500 ease-in-out border-b-2 border-transparent max-h-[4.125rem] {scrollY >
     32 && 'backdrop-blur !border-base-content/10 bg-base-100/30 md:bg-base-200/30'}">
   {#if !search}
-    <div in:fly={{ x: -50, duration: 300, delay: 300 }} out:fly={{ x: -50, duration: 300 }} class="navbar">
-      <div class="navbar-start">
+    <div in:fly={{ x: -50, duration: 300, delay: 300 }} out:fly={{ x: -50, duration: 300 }} class="navbar flex-nowrap">
+      <div class="navbar-start min-w-0">
         {#if headerConfig.nav}
           <Nav {path} {title} {pin} {scrollY} nav={headerConfig.nav} />
         {/if}
         <a href="/" class="btn btn-ghost normal-case text-lg">{site.title}</a>
       </div>
-      <div class="navbar-end">
+      <div class="navbar-end flex-shrink-0">
         {#if headerConfig.search}
           <button aria-label="search" on:click={() => (search = !search)} tabindex="0" class="btn btn-square btn-ghost">
             <span class="i-heroicons-outline-search" />

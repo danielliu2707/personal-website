@@ -16,7 +16,7 @@
     id="navbar-dropdown"
     tabindex="0"
     class:hidden={!pin}
-    class="menu menu-compact dropdown-content bg-base-100 text-base-content shadow-lg rounded-box min-w-max max-w-52 p-2
+    class="menu menu-compact dropdown-content bg-base-100 text-base-content shadow-lg rounded-box min-w-[14rem] max-w-[18rem] p-2
     ">
     {#each nav as { text, link, children }}
       {#if link && !children}
@@ -48,7 +48,7 @@
     class="swap-on btn btn-ghost text-base font-normal normal-case transition-all duration-200">
     {title}
   </button>
-  <ul class:hidden={scrollY > 64 && title} class="swap-off menu menu-horizontal p-0">
+  <ul class:hidden={scrollY > 64 && title} class="swap-off menu menu-horizontal flex-nowrap p-0">
     {#each nav as { text, link, children }}
       {#if link && !children}
         <li>

@@ -4,7 +4,7 @@ export const apps: Highlight[] = [
   {
     icon: '🏀',
     title: 'Positionn',
-    description: 'Find your ideal basketball position and NBA twin.',
+    description: 'Predicts your ideal basketball position and NBA twin.',
     link: '/projects/positionn'
   }
 ]
