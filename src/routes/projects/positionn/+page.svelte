@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount, onDestroy } from 'svelte'
   import Head from '$lib/components/head.svelte'
   import Footer from '$lib/components/footer.svelte'
 
@@ -30,14 +31,22 @@
         probability: number
         position_code?: string
         probabilities?: Record<string, number>
-        twin: {
+        top_players: Array<{
+          rank: number
           player_id: number
           name: string
           year: number
-        }
-        twin_stats: Record<string, number | string>
+          similarity_score: number
+          stats: Record<string, number>
+        }>
       }
     | null = null
+
+  let selectedPlayerIndex = 0
+  let isHighlighting = false
+  let showScrollPrompt = false
+  let scrollPromptStartTime = 0
+  let userInputStats: Record<string, number> | null = null
 
   function headshotUrl(playerId: number) {
     return `${HEADSHOT_BASE}/${playerId}.png`
@@ -89,10 +98,42 @@
     weight_kg: ''
   }
 
+  function selectPlayer(index: number) {
+    if (result && result.top_players && index >= 0 && index < result.top_players.length) {
+      selectedPlayerIndex = index
+      // Trigger highlight animation
+      isHighlighting = true
+      setTimeout(() => {
+        isHighlighting = false
+      }, 1000)
+      // Scroll to the player comparison section with header offset
+      setTimeout(() => {
+        const playerSection = document.getElementById('player-comparison-section')
+        if (playerSection) {
+          // Try to find the header/navbar element
+          const header = document.querySelector('header') || 
+                        document.querySelector('.navbar') || 
+                        document.querySelector('nav')
+          const headerHeight = header ? header.getBoundingClientRect().height : 100
+          const elementPosition = playerSection.getBoundingClientRect().top + window.pageYOffset
+          const offsetPosition = elementPosition - headerHeight - 24 // 24px extra padding
+          
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          })
+        }
+      }, 100)
+    }
+  }
+
   async function predict() {
     loading = true
     error = null
     result = null
+    selectedPlayerIndex = 0
+    showScrollPrompt = false
+    userInputStats = null
     fieldErrors = {
       points: '',
       rebounds: '',
@@ -175,12 +216,48 @@
       }
 
       result = await res.json()
+      // Store user input stats for comparison
+      if (mode === 'stats') {
+        userInputStats = {
+          points: p,
+          rebounds: r,
+          assists: a,
+          steals: s,
+          blocks: b,
+          turnovers: t
+        }
+      } else {
+        userInputStats = null
+      }
+      // Show scroll prompt immediately after results are received
+      if (result && result.top_players) {
+        showScrollPrompt = true
+        scrollPromptStartTime = Date.now()
+        // Hide after 12 seconds
+        setTimeout(() => {
+          showScrollPrompt = false
+        }, 12000)
+      }
     } catch (e) {
       error = e instanceof Error ? e.message : 'Something went wrong.'
     } finally {
       loading = false
     }
   }
+
+  // Hide scroll prompt when user scrolls (but only after minimum display time)
+  function handleScroll() {
+    if (showScrollPrompt && Date.now() - scrollPromptStartTime > 4000) {
+      showScrollPrompt = false
+    }
+  }
+
+  onMount(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  })
 </script>
 
 <Head />
@@ -207,9 +284,6 @@
           <span class="text-2xl">📊</span>
           <h2 class="text-xl md:text-2xl font-bold">Enter Your Details</h2>
         </div>
-        <p class="text-base-content/70 text-sm md:text-base">
-          Switch between player statistics and physical dimensions, then hit predict to see your results.
-        </p>
       </div>
 
       <!-- Tabs -->
@@ -415,12 +489,12 @@
       </div>
     {/if}
 
-    <div class="flex justify-center pt-4">
+    <div class="flex flex-col items-center pt-4 space-y-2">
       <button
         type="button"
-        class="btn btn-primary btn-lg gap-2 shadow-lg hover:shadow-xl transition-all duration-300 min-w-[200px]"
+        class="btn btn-primary btn-lg gap-2 shadow-lg hover:shadow-xl transition-all duration-300 min-w-[200px] {mode === 'dimensions' ? 'btn-disabled opacity-50 cursor-not-allowed' : ''}"
         on:click|preventDefault={predict}
-        disabled={loading}>
+        disabled={loading || mode === 'dimensions'}>
         {#if loading}
           <span class="loading loading-spinner loading-sm"></span>
           Calculating...
@@ -429,6 +503,11 @@
           Predict Position
         {/if}
       </button>
+      {#if mode === 'dimensions'}
+        <p class="text-sm text-base-content/70 text-center">
+          Dimensions prediction is not ready yet. Please use Statistics mode.
+        </p>
+      {/if}
     </div>
 
     {#if error}
@@ -438,6 +517,18 @@
 
   {#if result}
     <section class="space-y-6 animate-in fade-in duration-500">
+      <!-- Scroll Prompt -->
+      {#if showScrollPrompt && result && result.top_players}
+        <div class="w-full rounded-xl bg-primary/10 border border-primary/30 px-6 py-5 flex items-center justify-center gap-3">
+          <svg class="w-5 h-5 text-primary animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+          </svg>
+          <p class="text-sm md:text-base text-base-content font-medium">
+            Scroll all the way to the bottom to explore {result.top_players.length} similar players and find your NBA match!
+          </p>
+        </div>
+      {/if}
+
       <!-- Position Prediction Card -->
       <div
         class="relative overflow-hidden rounded-2xl border-2 border-primary/30 shadow-xl p-6 md:p-8 space-y-6 bg-base-900/80">
@@ -517,85 +608,143 @@
       </div>
 
       <!-- Player Comparison Card -->
-      <div class="rounded-2xl bg-base-100/80 backdrop-blur border-2 border-base-content/10 shadow-lg p-6 md:p-8 space-y-6">
-        <div class="flex items-center gap-3 mb-2">
-          <span class="text-2xl">⭐</span>
-          <h2 class="text-xl md:text-2xl font-bold">Your NBA Twin</h2>
-        </div>
+      {#if result.top_players && result.top_players[selectedPlayerIndex]}
+        {@const selectedPlayer = result.top_players[selectedPlayerIndex]}
+        <div
+          id="player-comparison-section"
+          class="rounded-2xl bg-base-100/80 backdrop-blur border-2 border-base-content/10 shadow-lg p-6 md:p-8 space-y-6 scroll-mt-24 transition-all duration-500 {isHighlighting ? 'ring-4 ring-primary ring-offset-2 shadow-2xl' : ''}">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="text-2xl">⭐</span>
+            <h2 class="text-xl md:text-2xl font-bold">Your #{selectedPlayer.rank} NBA Match</h2>
+          </div>
 
-        <div class="flex flex-col md:flex-row gap-6 items-start">
-          <!-- Player Info & Headshot -->
-          <div class="flex flex-col items-center md:items-start gap-4 flex-shrink-0">
-            {#if result.twin?.player_id}
+          <div class="flex flex-col md:flex-row gap-6 items-start">
+            <!-- Player Info & Headshot -->
+            <div class="flex flex-col items-center md:items-start gap-4 flex-shrink-0">
               <div class="relative">
                 <img
-                  src={headshotUrl(result.twin.player_id)}
-                  alt={result.twin.name}
+                  src={headshotUrl(selectedPlayer.player_id)}
+                  alt={selectedPlayer.name}
                   class="w-48 h-48 md:w-56 md:h-56 object-cover rounded-2xl shadow-xl border-4 border-primary/20"
                   loading="lazy"
                   on:error={onHeadshotError} />
               </div>
-            {/if}
-            <div class="text-center md:text-left">
-              <p class="text-lg md:text-xl font-bold text-base-content">
-                {#if result.twin?.year}
-                  {result.twin.year}
-                {/if}
-              </p>
-              <p class="text-xl md:text-2xl font-bold text-primary mt-1">
-                {result.twin.name}
-              </p>
-            </div>
-          </div>
-
-          <!-- Stats Table -->
-          {#if result.twin_stats}
-            <div class="flex-1 w-full space-y-4">
-              <div class="overflow-x-auto">
-                <table class="table table-zebra w-full">
-                  <thead>
-                    <tr class="bg-base-200">
-                      <th class="font-semibold">Season Statistics</th>
-                      <th class="font-semibold text-right">Per Game</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {#each Object.entries(result.twin_stats) as [stat, value]}
-                      {@const meta = statMeta(stat)}
-                      <tr>
-                        <td class="capitalize font-medium">
-                          <div class="flex items-center gap-2">
-                            {#if meta.icon}
-                              <span class={`${meta.icon} w-4 h-4 text-primary`} />
-                            {/if}
-                            <span>{meta.label}</span>
-                          </div>
-                        </td>
-                        <td class="text-right font-semibold">{value}</td>
-                      </tr>
-                    {/each}
-                  </tbody>
-                </table>
+              <div class="text-center md:text-left">
+                <p class="text-lg md:text-xl font-bold text-base-content">
+                  {selectedPlayer.year}
+                </p>
+                <p class="text-xl md:text-2xl font-bold text-primary mt-1">
+                  {selectedPlayer.name}
+                </p>
               </div>
+            </div>
 
-              {#if result.twin?.player_id}
+            <!-- Stats Table -->
+            {#if selectedPlayer.stats}
+              <div class="flex-1 w-full space-y-4">
+                <div class="overflow-x-auto">
+                  <table class="table table-zebra w-full">
+                    <thead>
+                      <tr class="bg-base-200">
+                        <th class="font-semibold">Season Statistics</th>
+                        <th class="font-semibold text-right">Per Game</th>
+                        {#if userInputStats}
+                          <th class="font-semibold text-right">vs Your Stats</th>
+                        {/if}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {#each Object.entries(selectedPlayer.stats) as [stat, value]}
+                        {@const meta = statMeta(stat)}
+                        {@const userValue = userInputStats ? userInputStats[stat] : null}
+                        {@const difference = userValue !== null ? Number(value) - userValue : null}
+                        <tr>
+                          <td class="capitalize font-medium">
+                            <div class="flex items-center gap-2">
+                              {#if meta.icon}
+                                <span class={`${meta.icon} w-4 h-4 text-primary`} />
+                              {/if}
+                              <span>{meta.label}</span>
+                            </div>
+                          </td>
+                          <td class="text-right font-semibold">{value}</td>
+                          {#if userInputStats && difference !== null}
+                            <td class="text-right font-semibold {difference > 0 ? 'text-success' : difference < 0 ? 'text-error' : 'text-base-content'}">
+                              {difference > 0 ? '+' : ''}{difference.toFixed(1)}
+                            </td>
+                          {/if}
+                        </tr>
+                      {/each}
+                    </tbody>
+                  </table>
+                </div>
+
                 <div class="pt-2">
                   <a
-                    href={nbaStatsUrl(result.twin.player_id)}
+                    href={nbaStatsUrl(selectedPlayer.player_id)}
                     target="_blank"
                     rel="noopener noreferrer external"
                     class="btn btn-ghost btn-sm px-0 text-sm normal-case text-primary flex items-center gap-2 group">
                     <span class="i-heroicons-arrow-top-right-on-square-20-solid w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     <span class="underline-offset-4 group-hover:underline">
-                      View full {result.twin.name} stats on NBA.com
+                      View full {selectedPlayer.name} stats on NBA.com
                     </span>
                   </a>
                 </div>
-              {/if}
-            </div>
-          {/if}
+              </div>
+            {/if}
+          </div>
         </div>
-      </div>
+      {/if}
+
+      <!-- Similar Players Gallery -->
+      {#if result.top_players && result.top_players.length > 0}
+        <div class="rounded-2xl bg-base-100/80 backdrop-blur border-2 border-base-content/10 shadow-lg p-6 md:p-8 space-y-6">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="text-2xl">👥</span>
+            <h2 class="text-xl md:text-2xl font-bold">Similar Players Gallery</h2>
+          </div>
+
+          <p class="text-sm text-base-content/70 mb-4">
+            Click on a player's face to view their season stats above and see how they match up with yours.
+          </p>
+
+          <div class="overflow-x-auto overflow-y-visible -mx-6 md:-mx-8 px-6 md:px-8 py-6 scrollbar-thin scrollbar-thumb-primary scrollbar-track-base-200">
+            <div class="flex gap-4 pb-4" style="scroll-behavior: smooth; width: max-content;">
+              {#each result.top_players as player, index}
+                <div class="flex-shrink-0 w-48 md:w-56 text-center space-y-3 py-2">
+                  <div
+                    class="relative group cursor-pointer {selectedPlayerIndex === index ? 'ring-4 ring-primary ring-offset-2 rounded-2xl' : ''}"
+                    on:click={() => selectPlayer(index)}
+                    role="button"
+                    tabindex="0"
+                    on:keydown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        selectPlayer(index)
+                      }
+                    }}>
+                    <img
+                      src={headshotUrl(player.player_id)}
+                      alt={player.name}
+                      class="w-48 h-48 md:w-56 md:h-56 object-cover rounded-2xl shadow-lg border-2 {selectedPlayerIndex === index ? 'border-primary' : 'border-base-content/10'} group-hover:border-primary/50 transition-all duration-300 group-hover:shadow-xl group-hover:scale-105"
+                      loading="lazy"
+                      on:error={onHeadshotError}
+                      style="transform-origin: center;" />
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold text-base-content/70">{player.year}</p>
+                    <p class="text-base md:text-lg font-bold text-base-content mt-1">{player.name}</p>
+                    <p class="text-xs text-base-content/60 mt-1">
+                      {(player.similarity_score * 100).toFixed(1)}% similar
+                    </p>
+                  </div>
+                </div>
+              {/each}
+            </div>
+          </div>
+        </div>
+      {/if}
     </section>
   {/if}
 

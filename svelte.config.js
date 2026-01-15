@@ -25,7 +25,7 @@ export default {
     adapter: 
       process.env.ADAPTER
         ? adapter[process.env.ADAPTER.toLowerCase()]
-        : adapter['static'],
+          : adapter['static'],
     prerender: {
       handleMissingId: 'warn',
       handleHttpError: ({ path }) => {

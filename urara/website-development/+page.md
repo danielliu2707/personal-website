@@ -162,8 +162,8 @@ memory_mb = 512            # Adequate for ML model
 
 **Deployment Process:**
 1. Login: `fly auth login`
-2. Launch: `fly launch` (uses existing `fly.toml`)
-3. Deploy: Automatic or manual `fly deploy`
+2. Launch: `fly launch` (uses existing `fly.toml`) - only for creating a new app for the first time
+3. Deploy: Automatic or manual `fly deploy` - for deploying updates to an existing app
 4. Monitor: `fly logs` and `fly status`
 
 The manual deployment process, while not as seamless as GitHub, is straightforward enough that redeploying model improvements only takes a few terminal commands.

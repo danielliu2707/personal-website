@@ -45,14 +45,14 @@
 
 <div class="max-w-6xl mx-auto px-4 md:px-8">
   <!-- Hero Section -->
-  <Profile />
+    <Profile />
 
   <!-- Featured Posts Section -->
   {#if featuredPosts.length > 0}
     <div class="pt-8 md:pt-12 border-t border-base-content/10">
       <FeaturedPosts posts={featuredPosts} />
-    </div>
-  {/if}
+      </div>
+    {/if}
 
   <!-- Highlights Section -->
   <div class="pt-12 md:pt-16 border-t border-base-content/10">
@@ -62,15 +62,15 @@
   <!-- Apps Section -->
   <div class="pt-12 md:pt-16 border-t border-base-content/10">
     <Apps />
-  </div>
+          </div>
 
   <!-- Latest Posts Section -->
   <div class="pt-12 md:pt-16">
     <LatestPosts posts={allPosts} limit={4} />
-  </div>
+        </div>
 
   <!-- Footer -->
   <div class="mt-20 pt-12 border-t border-base-content/10">
-    <Footer />
+        <Footer />
   </div>
 </div>

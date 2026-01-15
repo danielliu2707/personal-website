@@ -51,12 +51,12 @@
         and
         <a
           href="https://github.com/importantimport/urara"
-          rel="noopener noreferrer external"
-          target="_blank"
+        rel="noopener noreferrer external"
+        target="_blank"
           class="link link-hover text-primary">
-          Urara
-        </a>
-      </p>
+        Urara
+      </a>
+    </p>
     </div>
   </div>
 </footer>

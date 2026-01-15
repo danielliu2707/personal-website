@@ -84,7 +84,7 @@
           </div>
         </div>
       </div>
-    {/each}
+{/each}
   </div>
 
   <div class="mt-16 pt-12 border-t border-base-content/10">

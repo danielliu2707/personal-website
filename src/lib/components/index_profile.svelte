@@ -7,19 +7,19 @@
   <a href={site.protocol + site.domain} class="hidden u-url u-uid">{site.author.name}</a>
   <div class="flex flex-col md:flex-row items-start gap-6">
     <figure class="relative group flex-shrink-0">
-      {#if site.author.avatar}
-        <img
+    {#if site.author.avatar}
+      <img
           class="u-photo rounded-full shadow-xl hover:shadow-2xl transition-shadow z-10 w-32 h-32 md:w-40 md:h-40"
-          src={site.author.avatar}
-          alt={site.author.name} />
-      {/if}
-      {#if site.author.status}
-        <div
+        src={site.author.avatar}
+        alt={site.author.name} />
+    {/if}
+    {#if site.author.status}
+      <div
           class="absolute z-20 rounded-full w-10 h-10 md:w-12 md:h-12 bottom-0 right-0 bg-base-100 shadow-xl text-xl md:text-2xl text-center flex items-center justify-center">
-          {site.author.status}
-        </div>
-      {/if}
-    </figure>
+        {site.author.status}
+      </div>
+    {/if}
+  </figure>
     <div class="flex-1 ml-3 md:ml-6">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-2">
         <h1 class="text-4xl md:text-5xl font-bold p-name">
@@ -37,8 +37,8 @@
               {#each footerConfig.nav as item}
                 {@const text = item.text || ''}
                 {@const link = item.link || ''}
-                <a
-                  href={link}
+            <a
+              href={link}
                   rel="noopener noreferrer external"
                   target="_blank"
                   class="btn btn-ghost btn-circle border-2 border-base-content/30 hover:border-primary hover:bg-primary hover:text-primary-content transition-all"
@@ -56,10 +56,10 @@
                       <path
                         d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path>
                     </svg>
-                  {/if}
-                </a>
+              {/if}
+            </a>
               {/each}
-            {/if}
+              {/if}
           </div>
         </div>
       </div>
@@ -99,7 +99,7 @@
                     <path
                       d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path>
                   </svg>
-                {/if}
+              {/if}
               </a>
             {/each}
           {/if}
