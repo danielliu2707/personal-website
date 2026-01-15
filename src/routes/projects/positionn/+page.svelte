@@ -3,6 +3,8 @@
   import Footer from '$lib/components/footer.svelte'
 
   const API_BASE = 'https://positionn-api.fly.dev'
+  const HEADSHOT_BASE =
+    'https://raw.githubusercontent.com/danielliu2707/positionn/main/player_headshots'
 
   type Mode = 'stats' | 'dimensions'
 
@@ -26,13 +28,26 @@
     | {
         position: string
         probability: number
-        twin: string
-        // Optional fields that can be returned by the API
-        season?: string
-        headshot_url?: string
+        position_code?: string
+        probabilities?: Record<string, number>
+        twin: {
+          player_id: number
+          name: string
+          year: number
+        }
         twin_stats: Record<string, number | string>
       }
     | null = null
+
+  function headshotUrl(playerId: number) {
+    return `${HEADSHOT_BASE}/${playerId}.png`
+  }
+
+  function onHeadshotError(event: Event) {
+    // If a headshot isn't available for this player_id, hide the image gracefully.
+    const img = event.currentTarget
+    if (img && img instanceof HTMLImageElement) img.style.display = 'none'
+  }
 
   let fieldErrors = {
     points: '',
@@ -396,19 +411,21 @@
         <h2 class="text-base md:text-lg font-semibold">NBA Player Comparison</h2>
 
         <p class="font-medium text-lg">
-          {#if result.season}
-            {result.season} {result.twin}
+          {#if result.twin?.year}
+            {result.twin.year} {result.twin.name}
           {:else}
-            {result.twin}
+            {result.twin.name}
           {/if}
         </p>
 
-        {#if result.headshot_url}
+        {#if result.twin?.player_id}
           <div class="flex justify-center">
             <img
-              src={result.headshot_url}
-              alt={result.twin}
-              class="max-h-64 w-auto object-contain rounded-xl shadow-md" />
+              src={headshotUrl(result.twin.player_id)}
+              alt={result.twin.name}
+              class="max-h-64 w-auto object-contain rounded-xl shadow-md"
+              loading="lazy"
+              on:error={onHeadshotError} />
           </div>
         {/if}
 

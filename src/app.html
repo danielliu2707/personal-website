@@ -2,15 +2,15 @@
 <html lang="en">
   <head prefix="og: https://ogp.me/ns#">
     <script>
-      // Set theme immediately to prevent flash - default to 'dark'
+      // Set theme immediately to prevent flash - default to 'night'
       ;(function () {
         try {
           const savedTheme = localStorage.getItem('theme')
-          // Only use saved theme if it exists, otherwise default to 'dark'
-          document.documentElement.setAttribute('data-theme', savedTheme || 'dark')
+          // Only use saved theme if it exists, otherwise default to 'night'
+          document.documentElement.setAttribute('data-theme', savedTheme || 'night')
         } catch (e) {
           // Fallback if localStorage is not available
-          document.documentElement.setAttribute('data-theme', 'dark')
+          document.documentElement.setAttribute('data-theme', 'night')
         }
       })()
     </script>
