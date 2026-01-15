@@ -2,17 +2,17 @@
 <html lang="en">
   <head prefix="og: https://ogp.me/ns#">
     <script>
-      // Set theme immediately to prevent flash - default to 'night'
-      (function() {
+      // Set theme immediately to prevent flash - default to 'dark'
+      ;(function () {
         try {
-          const savedTheme = localStorage.getItem('theme');
-          // Only use saved theme if it exists, otherwise default to 'night'
-          document.documentElement.setAttribute('data-theme', savedTheme || 'night');
+          const savedTheme = localStorage.getItem('theme')
+          // Only use saved theme if it exists, otherwise default to 'dark'
+          document.documentElement.setAttribute('data-theme', savedTheme || 'dark')
         } catch (e) {
           // Fallback if localStorage is not available
-          document.documentElement.setAttribute('data-theme', 'night');
+          document.documentElement.setAttribute('data-theme', 'dark')
         }
-      })();
+      })()
     </script>
     <meta charset="utf-8" />
     <meta name="generator" content="gh:importantimport/urara" />

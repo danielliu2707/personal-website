@@ -4,11 +4,12 @@
   export let showHeader: boolean = true
   export let showViewAll: boolean = true
 
-  function formatDate(date: string): { day: string; month: string } {
+  function formatDate(date: string): { day: string; month: string; year: string } {
     const d = new Date(date)
     const day = d.getDate().toString().padStart(2, '0')
     const month = d.toLocaleDateString('en-US', { month: 'short' }).toUpperCase()
-    return { day, month }
+    const year = d.getFullYear().toString()
+    return { day, month, year }
   }
 </script>
 
@@ -31,9 +32,9 @@
         <a
           href={post.path}
           class="flex gap-6 p-4 rounded-box hover:bg-base-200 transition-colors group">
-          <div class="flex flex-col items-center min-w-[60px]">
-            <div class="text-2xl font-bold">{date.day}</div>
-            <div class="text-sm text-base-content/60">{date.month}</div>
+          <div class="flex flex-col items-center justify-center min-w-[70px]">
+            <div class="text-2xl font-bold leading-tight">{date.day}</div>
+            <div class="text-xs text-base-content/60 leading-tight mt-0.5">{date.month} {date.year}</div>
           </div>
           <div class="flex-1">
             <h3 class="text-xl font-semibold mb-1 group-hover:text-primary transition-colors">
