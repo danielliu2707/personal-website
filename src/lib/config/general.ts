@@ -69,6 +69,10 @@ export const header: HeaderConfig = {
         {
           text: 'Canva Chronicles',
           link: '/canva_learnings'
+        },
+        {
+          text: 'Website Development',
+          link: '/website-development'
         }
       ]
     },
