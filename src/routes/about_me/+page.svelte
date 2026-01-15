@@ -92,7 +92,7 @@
                 Junior Data Scientist · Acenda
               </h2>
               <p class="text-sm md:text-base text-base-content/80 mt-4 leading-relaxed">
-                Built ML models in the AI team using AWS for an automated customer document processing system.
+                Built AWS SageMaker ML models in the AI team for an automated customer document processing system.
 
               </p>
               <ul class="list-none text-sm md:text-base text-base-content/80 mt-4 space-y-2">
@@ -374,7 +374,7 @@
                 Committee Executive · Computing & Commerce Association
               </h2>
               <p class="text-sm md:text-base text-base-content/80 mt-4 leading-relaxed">
-                Run one of Monash's largest student societies; focusing on tech and business events.
+                Ran one of Monash's largest student societies; focusing on tech and business events.
               </p>
               <ul class="list-none text-sm md:text-base text-base-content/80 mt-4 space-y-2">
                 <li class="flex gap-2 items-baseline">

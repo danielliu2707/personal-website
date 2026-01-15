@@ -5,7 +5,9 @@ export type Project = {
   feature?: string
   description?: string
   img: string
-  link?: string
+  github?: string
+  demo?: string
+  link?: string // Deprecated: use github and demo instead
 }
 
 export const projects: Project[] = [
@@ -16,8 +18,9 @@ export const projects: Project[] = [
     description:
       "An app that predicts your ideal basketball position and finds your NBA twin! 🏀",
     feature: '',
-    img: 'https://raw.githubusercontent.com/danielliu2707/positionn/refs/heads/main/img/positionn-logo.png',
-    link: 'https://github.com/danielliu2707/positionn'
+    img: '/assets/positionnlogo.png',
+    github: 'https://github.com/danielliu2707/positionn',
+    demo: '/projects/positionn' // Will be updated later
   },
   {
     id: 'nykfailures',
@@ -26,18 +29,20 @@ export const projects: Project[] = [
     description:
       "Uncovering and addressing the New York Knicks' struggles while providing actionable solutions for the future. 🏀",
     feature: '',
-    img: 'https://raw.githubusercontent.com/danielliu2707/personal_website/main/urara/assets/knicks.png',
-    link: 'https://github.com/danielliu2707/NYK_Failures'
+    img: '/assets/nyklogo.png',
+    github: 'https://github.com/danielliu2707/NYK_Failures',
+    demo: 'https://drive.google.com/file/d/1OBnAP1nrQ0fHDhyn8HT1saRg5REImPkD/view?usp=sharing'
   },
   {
     id: 'tunebuild',
     name: 'TuneBuild',
     tags: ['Python', 'Machine Learning', 'Flask'],
     description:
-      "An App that generates Spotify playlists tailored to your music taste. 🎶",
+      "A developer only app that generates Spotify playlists tailored to your music taste. 🎶",
     feature: '',
-    img: 'https://i.ibb.co/tpCD7t3/logo.png',
-    link: 'https://github.com/danielliu2707/TuneBuild/tree/main'
+    img: '/assets/tunebuildlogo.png',
+    github: 'https://github.com/danielliu2707/TuneBuild/tree/main',
+    demo: '' // Will be updated later
   }
 ]
 
