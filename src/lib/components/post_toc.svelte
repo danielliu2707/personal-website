@@ -9,9 +9,51 @@
   let intersecting: string[] = []
   let intersectingArticle: boolean = true
   let bordered: string[] = []
+  let tocNavElement: HTMLElement | null = null
+
+  function scrollActiveTocIntoView(activeSlug: string) {
+    if (!tocNavElement) return
+    
+    const activeTocLink = document.getElementById(`toc-link-${activeSlug}`)
+    if (!activeTocLink) return
+
+    const navRect = tocNavElement.getBoundingClientRect()
+    const linkRect = activeTocLink.getBoundingClientRect()
+    
+    // Check if the active link is outside the visible area of the nav
+    const isAboveViewport = linkRect.top < navRect.top
+    const isBelowViewport = linkRect.bottom > navRect.bottom
+    
+    if (isAboveViewport || isBelowViewport) {
+      // Calculate the position: offsetTop gives position relative to offsetParent
+      // We need to account for the scroll position
+      const linkTop = activeTocLink.offsetTop
+      const navScrollTop = tocNavElement.scrollTop
+      const navHeight = tocNavElement.clientHeight
+      const linkHeight = activeTocLink.offsetHeight
+      
+      // Calculate desired scroll position
+      let scrollTo: number
+      
+      if (isAboveViewport) {
+        // Scroll to show the top of the link with some padding
+        scrollTo = linkTop - 20
+      } else {
+        // Scroll to show the bottom of the link with some padding
+        scrollTo = linkTop + linkHeight - navHeight + 20
+      }
+      
+      tocNavElement.scrollTo({
+        top: Math.max(0, scrollTo),
+        behavior: 'smooth'
+      })
+    }
+  }
 
   onMount(() => {
     if (window.screen.availWidth >= 1280) {
+      tocNavElement = document.getElementById('post-toc')
+      
       const headingsObserver = new IntersectionObserver(
         headings =>
           headings.forEach(heading =>
@@ -38,12 +80,21 @@
 
   $: if (intersecting.length > 0) bordered = intersecting
   $: if (intersectingArticle === false) bordered = []
-  $: if (bordered)
-    toc.forEach(heading =>
-      bordered.includes(heading.slug!)
-        ? document.getElementById(`toc-link-${heading.slug}`)?.classList.add('!border-accent')
-        : document.getElementById(`toc-link-${heading.slug}`)?.classList.remove('!border-accent')
-    )
+  $: if (bordered && bordered.length > 0) {
+    // Get the last (most recent) intersecting heading as the active one
+    const activeSlug = bordered[bordered.length - 1]
+    
+    toc.forEach(heading => {
+      if (bordered.includes(heading.slug!)) {
+        document.getElementById(`toc-link-${heading.slug}`)?.classList.add('!border-accent')
+      } else {
+        document.getElementById(`toc-link-${heading.slug}`)?.classList.remove('!border-accent')
+      }
+    })
+    
+    // Scroll the active TOC item into view
+    scrollActiveTocIntoView(activeSlug)
+  }
 </script>
 
 <aside class="sticky top-16 py-8">
