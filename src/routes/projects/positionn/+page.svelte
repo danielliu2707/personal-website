@@ -705,11 +705,11 @@
             <h2 class="text-xl md:text-2xl font-bold">Similar Players Gallery</h2>
           </div>
 
-          <div class="rounded-xl bg-primary/15 border-2 border-primary/30 px-5 py-4 mb-6 flex items-center gap-3">
-            <svg class="w-6 h-6 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <div class="rounded-xl bg-primary/15 border-2 border-primary/30 px-4 py-3 mb-6 flex items-center gap-3">
+            <svg class="w-5 h-5 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path>
             </svg>
-            <p class="text-base md:text-lg font-semibold text-primary">
+            <p class="text-sm md:text-base font-semibold text-primary">
               Click on any player's face to view their stats and see how they match up with yours!
             </p>
           </div>

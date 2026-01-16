@@ -26,7 +26,14 @@
       {:else if children}
         <li tabindex="0">
           <span class:font-bold={children.some(({ link }) => link === path)} class="justify-between gap-1 max-w-[13rem]">
-            {text}
+            {#if text === 'Apps'}
+              <span class="flex items-center gap-1.5">
+                {text}
+                <span class="i-heroicons-solid-sparkles text-primary text-xs" />
+              </span>
+            {:else}
+              {text}
+            {/if}
             <span class="i-heroicons-solid-chevron-right mr-2" />
           </span>
           <ul class="bg-base-100 text-base-content shadow-lg p-2">
@@ -57,8 +64,15 @@
       {:else if children}
         <li class="dropdown">
           <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-          <div tabindex="0" class:font-bold={children.some(({ link }) => link === path)} class="!rounded-btn gap-1 cursor-pointer whitespace-nowrap">
-            {text}
+          <div tabindex="0" class:font-bold={children.some(({ link }) => link === path)} class="!rounded-btn gap-1 cursor-pointer whitespace-nowrap" class:text-primary={text === 'Apps'}>
+            {#if text === 'Apps'}
+              <span class="flex items-center gap-2">
+                {text}
+                <span class="i-heroicons-solid-sparkles text-xs" />
+              </span>
+            {:else}
+              {text}
+            {/if}
             <span class="i-heroicons-solid-chevron-down -mr-1" />
           </div>
           <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
