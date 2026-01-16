@@ -218,6 +218,40 @@ The manual deployment process, while not as seamless as GitHub, is straightforwa
 
 ---
 
+## The Software & Tools That Made It All Possible
+
+Throughout this rebuild, I ended up touching far more tools and services than I initially expected, each playing a role somewhere between development, deployment, hosting, and user experience.
+
+Here’s a concise summary of the stack involved in bringing my website to life. The important tools are bolded:
+
+### Frontend Framework & Theme
+  - **SvelteKit + Urara Template** — Core framework + blog/portfolio scaffolding
+  - Tailwind CSS + DaisyUI — Rapid UI development + pre-built components
+
+### Hosting, Domains & Deployment
+  - **Vercel** — Hosts the main static site (fast, free)
+  - Namecheap — Purchased the custom domain danielliu.xyz
+  - **Fly.io** — Deploys the FastAPI backend powering the NBA Position Predictor
+  - (Considered: Render — rejected due to slow cold starts and higher sustained cost)
+
+### Backend/API / ML
+  - Python + scikit-learn — For model training used in the Position Predictor
+  - **FastAPI** — Lightweight backend for ML inference
+  - Streamlit (original version) — Earlier iteration before moving to API architecture
+
+### Feedback & User Input
+  - **Tally.so** — Collects structured website feedback through an embedded form with pop-up UI
+  - (Considered: Survicate, Usersnap, Zoho — all require payment after trial or lacked business email to signup)
+
+### Version Control & Collaboration
+  - Git + GitHub — Source control and repo hosting
+
+### Design & Content Creation
+  - Cursor — AI-assisted development
+  - Canva — Created visuals for before/after comparisons and project previews
+
+---
+
 ## Key Learnings and Best Practices
 
 ### 1. Start with a Template, Customize Extensively
