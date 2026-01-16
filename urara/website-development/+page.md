@@ -99,6 +99,30 @@ The projects page received a complete visual overhaul:
 
 ---
 
+## Feedback Form Development
+
+### Choosing the Right Solution
+
+After receiving feedback from my roommate about the website's usability, I realised there was still work to be done to make the site more intuitive. I needed a structured way to collect responses from friends and visitors to identify pain points and improvement opportunities. This led me to explore feedback form solutions that could be integrated into my website.
+
+I explored several feedback form services, including Survicate, Usersnap, and Zoho Forms, but all required payment after trial periods. I ultimately settled on [Tally.so](https://tally.so). It's free, offers easy integration with simple embed code, flexible form design, and no backend requirements as all submissions are handled by Tally.
+
+
+### Smart Timing and Implementation
+
+One of the most important decisions was **when** to show the feedback prompt. The goal was to capture feedback from users who had actually explored the site, formed opinions, and genuinely cared about providing feedback. The challenge was balancing timing. Show it too early, and you get annoying, low-quality feedback; show it too late and users have already left.
+
+I implemented an engagement-based system where the prompt only appears after all of these criteria are met:
+1. **Scroll Depth**: User has scrolled at least 50% down on at least one page (tracked across page navigations)
+2. **Time on Site**: User has been on the current page for at least 20 seconds
+3. **Page Views**: User has visited at least 2 pages (homepage + another page)
+
+Engagement metrics are tracked via `localStorage` to persist across page navigations. The prompt appears as a small card in the bottom-right corner that users can exit with an X button (won't show again after dismissal). Once criteria are met, it fades in smoothly, and clicking "Share Feedback" opens the Tally pop-up form.  
+
+![feedbackredirect](./feedbackredirect.jpg)  
+
+---
+
 ## Technical Implementation: API Integration and Deployment
 
 ### The NBA Position Predictor Integration
