@@ -1,5 +1,6 @@
 <script lang="ts">
   import Head from '$lib/components/head.svelte'
+  import Footer from '$lib/components/footer.svelte'
 
   let activeTab: 'experience' | 'education' | 'extracurriculars' = 'experience'
 
@@ -432,4 +433,9 @@
       </div>
     </section>
   {/if}
+  
+  <!-- Footer -->
+  <div class="mt-20 pt-12 border-t border-base-content/10">
+    <Footer />
+  </div>
 </main>
