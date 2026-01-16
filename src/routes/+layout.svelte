@@ -8,6 +8,7 @@
   import Head from '$lib/components/head_static.svelte'
   import Header from '$lib/components/header.svelte'
   import Transition from '$lib/components/transition.svelte'
+  import FeedbackPrompt from '$lib/components/feedback_prompt.svelte'
   import 'uno.css'
   import '../app.pcss'
 
@@ -38,3 +39,5 @@
 <Transition {path}>
   <slot />
 </Transition>
+
+<FeedbackPrompt />
