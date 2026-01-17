@@ -4,14 +4,17 @@
   import Footer from '$lib/components/footer.svelte'
 
   const API_BASE = 'https://positionn-api.fly.dev'
-  const HEADSHOT_BASE =
-    'https://raw.githubusercontent.com/danielliu2707/positionn/main/player_headshots'
+  const HEADSHOT_BASE = 'https://raw.githubusercontent.com/danielliu2707/positionn/main/player_headshots'
+  const DAILY_LIMIT = 25
+  const RATE_LIMIT_KEY = 'positionn_rate_limit'
 
   type Mode = 'stats' | 'dimensions'
 
   let mode: Mode = 'stats'
   let loading = false
   let error: string | null = null
+  let rateLimitExceeded = false
+  let remainingCalls = DAILY_LIMIT
 
   // Stats inputs
   let points = 0
@@ -25,22 +28,20 @@
   let height_cm = 180
   let weight_kg = 75
 
-  let result:
-    | {
-        position: string
-        probability: number
-        position_code?: string
-        probabilities?: Record<string, number>
-        top_players: Array<{
-          rank: number
-          player_id: number
-          name: string
-          year: number
-          similarity_score: number
-          stats: Record<string, number>
-        }>
-      }
-    | null = null
+  let result: {
+    position: string
+    probability: number
+    position_code?: string
+    probabilities?: Record<string, number>
+    top_players: Array<{
+      rank: number
+      player_id: number
+      name: string
+      year: number
+      similarity_score: number
+      stats: Record<string, number>
+    }>
+  } | null = null
 
   let selectedPlayerIndex = 0
   let isHighlighting = false
@@ -98,6 +99,59 @@
     weight_kg: ''
   }
 
+  // Rate limiting functions
+  interface RateLimitData {
+    count: number
+    resetTimestamp: number
+  }
+
+  function getRateLimitData(): RateLimitData {
+    try {
+      const stored = localStorage.getItem(RATE_LIMIT_KEY)
+      if (!stored) {
+        return { count: 0, resetTimestamp: Date.now() }
+      }
+      const data: RateLimitData = JSON.parse(stored)
+
+      // Check if 24 hours have passed since reset
+      const now = Date.now()
+      const twentyFourHours = 24 * 60 * 60 * 1000
+      if (now - data.resetTimestamp >= twentyFourHours) {
+        // Reset the count
+        return { count: 0, resetTimestamp: now }
+      }
+
+      return data
+    } catch (e) {
+      // If localStorage is unavailable or corrupted, return default
+      return { count: 0, resetTimestamp: Date.now() }
+    }
+  }
+
+  function saveRateLimitData(data: RateLimitData) {
+    try {
+      localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(data))
+    } catch (e) {
+      // If localStorage is unavailable, silently fail
+      // Rate limiting won't work in this case, but app will continue to function
+    }
+  }
+
+  function checkRateLimit(): boolean {
+    const data = getRateLimitData()
+    remainingCalls = DAILY_LIMIT - data.count
+    rateLimitExceeded = data.count >= DAILY_LIMIT
+    return !rateLimitExceeded
+  }
+
+  function incrementRateLimit() {
+    const data = getRateLimitData()
+    data.count += 1
+    saveRateLimitData(data)
+    remainingCalls = DAILY_LIMIT - data.count
+    rateLimitExceeded = data.count >= DAILY_LIMIT
+  }
+
   function selectPlayer(index: number) {
     if (result && result.top_players && index >= 0 && index < result.top_players.length) {
       selectedPlayerIndex = index
@@ -111,13 +165,11 @@
         const playerSection = document.getElementById('player-comparison-section')
         if (playerSection) {
           // Try to find the header/navbar element
-          const header = document.querySelector('header') || 
-                        document.querySelector('.navbar') || 
-                        document.querySelector('nav')
+          const header = document.querySelector('header') || document.querySelector('.navbar') || document.querySelector('nav')
           const headerHeight = header ? header.getBoundingClientRect().height : 100
           const elementPosition = playerSection.getBoundingClientRect().top + window.pageYOffset
           const offsetPosition = elementPosition - headerHeight - 24 // 24px extra padding
-          
+
           window.scrollTo({
             top: offsetPosition,
             behavior: 'smooth'
@@ -128,6 +180,13 @@
   }
 
   async function predict() {
+    // Check rate limit before proceeding
+    if (!checkRateLimit()) {
+      error = `You've reached the daily limit of ${DAILY_LIMIT} predictions. Please come back in 24 hours.`
+      loading = false
+      return
+    }
+
     loading = true
     error = null
     result = null
@@ -216,6 +275,10 @@
       }
 
       result = await res.json()
+
+      // Increment rate limit counter after successful API call
+      incrementRateLimit()
+
       // Store user input stats for comparison
       if (mode === 'stats') {
         userInputStats = {
@@ -254,6 +317,8 @@
 
   onMount(() => {
     window.addEventListener('scroll', handleScroll, { passive: true })
+    // Check rate limit on mount
+    checkRateLimit()
     return () => {
       window.removeEventListener('scroll', handleScroll)
     }
@@ -277,7 +342,8 @@
     </p>
   </header>
 
-  <section class="rounded-2xl bg-gradient-to-br from-base-100/90 to-base-200/50 backdrop-blur border-2 border-base-content/10 shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 md:p-8 space-y-6">
+  <section
+    class="rounded-2xl bg-gradient-to-br from-base-100/90 to-base-200/50 backdrop-blur border-2 border-base-content/10 shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 md:p-8 space-y-6">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
       <div class="space-y-2">
         <div class="flex items-center gap-2">
@@ -317,7 +383,9 @@
           </label>
           <input
             id="points"
-            class="input input-bordered w-full hover:border-primary/50 focus:border-primary transition-colors {fieldErrors.points ? 'input-error' : ''}"
+            class="input input-bordered w-full hover:border-primary/50 focus:border-primary transition-colors {fieldErrors.points
+              ? 'input-error'
+              : ''}"
             type="number"
             step="0.1"
             min="0"
@@ -339,7 +407,9 @@
           </label>
           <input
             id="rebounds"
-            class="input input-bordered w-full hover:border-primary/50 focus:border-primary transition-colors {fieldErrors.rebounds ? 'input-error' : ''}"
+            class="input input-bordered w-full hover:border-primary/50 focus:border-primary transition-colors {fieldErrors.rebounds
+              ? 'input-error'
+              : ''}"
             type="number"
             step="0.1"
             min="0"
@@ -361,7 +431,9 @@
           </label>
           <input
             id="assists"
-            class="input input-bordered w-full hover:border-primary/50 focus:border-primary transition-colors {fieldErrors.assists ? 'input-error' : ''}"
+            class="input input-bordered w-full hover:border-primary/50 focus:border-primary transition-colors {fieldErrors.assists
+              ? 'input-error'
+              : ''}"
             type="number"
             step="0.1"
             min="0"
@@ -383,7 +455,9 @@
           </label>
           <input
             id="steals"
-            class="input input-bordered w-full hover:border-primary/50 focus:border-primary transition-colors {fieldErrors.steals ? 'input-error' : ''}"
+            class="input input-bordered w-full hover:border-primary/50 focus:border-primary transition-colors {fieldErrors.steals
+              ? 'input-error'
+              : ''}"
             type="number"
             step="0.1"
             min="0"
@@ -405,7 +479,9 @@
           </label>
           <input
             id="blocks"
-            class="input input-bordered w-full hover:border-primary/50 focus:border-primary transition-colors {fieldErrors.blocks ? 'input-error' : ''}"
+            class="input input-bordered w-full hover:border-primary/50 focus:border-primary transition-colors {fieldErrors.blocks
+              ? 'input-error'
+              : ''}"
             type="number"
             step="0.1"
             min="0"
@@ -427,7 +503,9 @@
           </label>
           <input
             id="turnovers"
-            class="input input-bordered w-full hover:border-primary/50 focus:border-primary transition-colors {fieldErrors.turnovers ? 'input-error' : ''}"
+            class="input input-bordered w-full hover:border-primary/50 focus:border-primary transition-colors {fieldErrors.turnovers
+              ? 'input-error'
+              : ''}"
             type="number"
             step="0.1"
             min="0"
@@ -453,7 +531,9 @@
           </label>
           <input
             id="height_cm"
-            class="input input-bordered w-full hover:border-primary/50 focus:border-primary transition-colors {fieldErrors.height_cm ? 'input-error' : ''}"
+            class="input input-bordered w-full hover:border-primary/50 focus:border-primary transition-colors {fieldErrors.height_cm
+              ? 'input-error'
+              : ''}"
             type="number"
             min="100"
             max="250"
@@ -474,7 +554,9 @@
           </label>
           <input
             id="weight_kg"
-            class="input input-bordered w-full hover:border-primary/50 focus:border-primary transition-colors {fieldErrors.weight_kg ? 'input-error' : ''}"
+            class="input input-bordered w-full hover:border-primary/50 focus:border-primary transition-colors {fieldErrors.weight_kg
+              ? 'input-error'
+              : ''}"
             type="number"
             min="30"
             max="250"
@@ -492,9 +574,12 @@
     <div class="flex flex-col items-center pt-4 space-y-2">
       <button
         type="button"
-        class="btn btn-primary btn-lg gap-2 shadow-lg hover:shadow-xl transition-all duration-300 min-w-[200px] {mode === 'dimensions' ? 'btn-disabled opacity-50 cursor-not-allowed' : ''}"
+        class="btn btn-primary btn-lg gap-2 shadow-lg hover:shadow-xl transition-all duration-300 min-w-[200px] {mode ===
+          'dimensions' || rateLimitExceeded
+          ? 'btn-disabled opacity-50 cursor-not-allowed'
+          : ''}"
         on:click|preventDefault={predict}
-        disabled={loading || mode === 'dimensions'}>
+        disabled={loading || mode === 'dimensions' || rateLimitExceeded}>
         {#if loading}
           <span class="loading loading-spinner loading-sm"></span>
           Calculating...
@@ -506,6 +591,11 @@
       {#if mode === 'dimensions'}
         <p class="text-sm text-base-content/70 text-center">
           Dimensions prediction is not ready yet. Please use Statistics mode.
+        </p>
+      {/if}
+      {#if rateLimitExceeded}
+        <p class="text-sm text-error text-center font-semibold">
+          ⏰ You've reached the daily limit of {DAILY_LIMIT} predictions. Please come back in 24 hours.
         </p>
       {/if}
     </div>
@@ -520,7 +610,12 @@
       <!-- Scroll Prompt -->
       {#if showScrollPrompt && result && result.top_players}
         <div class="w-full rounded-xl bg-primary/10 border border-primary/30 px-6 py-5 flex items-center justify-center gap-3">
-          <svg class="w-5 h-5 text-primary animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            class="w-5 h-5 text-primary animate-bounce"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
           </svg>
           <p class="text-sm md:text-base text-base-content font-medium">
@@ -534,19 +629,15 @@
         class="relative overflow-hidden rounded-2xl border-2 border-primary/30 shadow-xl p-6 md:p-8 space-y-6 bg-base-900/80">
         <!-- Background image + gradient overlay -->
         <div class="absolute inset-0 pointer-events-none">
-          <div
-            class="w-full h-full bg-[url('/assets/basketbackgroundpositionn.jpeg')] bg-cover bg-center opacity-40" />
-          <div
-            class="absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/10 to-accent/10 opacity-70" />
+          <div class="w-full h-full bg-[url('/assets/basketbackgroundpositionn.jpeg')] bg-cover bg-center opacity-40" />
+          <div class="absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/10 to-accent/10 opacity-70" />
         </div>
 
         <!-- Foreground content -->
         <div class="relative space-y-4">
           <div class="flex items-center gap-3 mb-2">
             <span class="text-3xl">🏀</span>
-            <p class="text-sm uppercase tracking-wide text-base-content/80 font-semibold">
-              Your Basketball Analysis
-            </p>
+            <p class="text-sm uppercase tracking-wide text-base-content/80 font-semibold">Your Basketball Analysis</p>
           </div>
 
           <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -571,7 +662,7 @@
               <div class="w-full bg-base-300 rounded-full h-4 overflow-hidden shadow-inner">
                 <div
                   class="bg-gradient-to-r from-primary to-primary-focus h-full rounded-full transition-all duration-1000 ease-out"
-                  style="width: {(result.probability * 100)}%">
+                  style="width: {result.probability * 100}%">
                 </div>
               </div>
             </div>
@@ -584,7 +675,10 @@
               <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                 {#each Object.entries(result.probabilities) as [pos, prob]}
                   {@const isPrimary = pos === result.position_code}
-                  <div class="rounded-lg bg-base-100/50 p-3 border {isPrimary ? 'border-primary shadow-md' : 'border-base-content/10'}">
+                  <div
+                    class="rounded-lg bg-base-100/50 p-3 border {isPrimary
+                      ? 'border-primary shadow-md'
+                      : 'border-base-content/10'}">
                     <div class="flex justify-between items-center mb-2">
                       <span class="text-sm font-semibold {isPrimary ? 'text-primary' : 'text-base-content/70'}">
                         {pos === 'G' ? 'Guard' : pos === 'F' ? 'Forward' : pos === 'C' ? 'Center' : pos}
@@ -595,8 +689,10 @@
                     </div>
                     <div class="w-full bg-base-200 rounded-full h-2">
                       <div
-                        class="h-2 rounded-full transition-all duration-1000 ease-out {isPrimary ? 'bg-primary' : 'bg-base-content/30'}"
-                        style="width: {(prob * 100)}%">
+                        class="h-2 rounded-full transition-all duration-1000 ease-out {isPrimary
+                          ? 'bg-primary'
+                          : 'bg-base-content/30'}"
+                        style="width: {prob * 100}%">
                       </div>
                     </div>
                   </div>
@@ -612,7 +708,9 @@
         {@const selectedPlayer = result.top_players[selectedPlayerIndex]}
         <div
           id="player-comparison-section"
-          class="rounded-2xl bg-base-100/80 backdrop-blur border-2 border-base-content/10 shadow-lg p-6 md:p-8 space-y-6 scroll-mt-24 transition-all duration-500 {isHighlighting ? 'ring-4 ring-primary ring-offset-2 shadow-2xl' : ''}">
+          class="rounded-2xl bg-base-100/80 backdrop-blur border-2 border-base-content/10 shadow-lg p-6 md:p-8 space-y-6 scroll-mt-24 transition-all duration-500 {isHighlighting
+            ? 'ring-4 ring-primary ring-offset-2 shadow-2xl'
+            : ''}">
           <div class="flex items-center gap-3 mb-2">
             <span class="text-2xl">⭐</span>
             <h2 class="text-xl md:text-2xl font-bold">Your #{selectedPlayer.rank} NBA Match</h2>
@@ -669,7 +767,12 @@
                           </td>
                           <td class="text-right font-semibold">{value}</td>
                           {#if userInputStats && difference !== null}
-                            <td class="text-right font-semibold {difference > 0 ? 'text-success' : difference < 0 ? 'text-error' : 'text-base-content'}">
+                            <td
+                              class="text-right font-semibold {difference > 0
+                                ? 'text-success'
+                                : difference < 0
+                                ? 'text-error'
+                                : 'text-base-content'}">
                               {difference > 0 ? '+' : ''}{difference.toFixed(1)}
                             </td>
                           {/if}
@@ -685,7 +788,8 @@
                     target="_blank"
                     rel="noopener noreferrer external"
                     class="btn btn-ghost btn-sm px-0 text-sm normal-case text-primary flex items-center gap-2 group">
-                    <span class="i-heroicons-arrow-top-right-on-square-20-solid w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    <span
+                      class="i-heroicons-arrow-top-right-on-square-20-solid w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     <span class="underline-offset-4 group-hover:underline">
                       View full {selectedPlayer.name} stats on NBA.com
                     </span>
@@ -706,24 +810,37 @@
           </div>
 
           <div class="rounded-xl bg-primary/15 border-2 border-primary/30 px-4 py-3 mb-6 flex items-center gap-3">
-            <svg class="w-5 h-5 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path>
+            <svg
+              class="w-5 h-5 text-primary flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122">
+              </path>
             </svg>
             <p class="text-sm md:text-base font-semibold text-primary">
               Click on any player's face to view their stats and see how they match up with yours!
             </p>
           </div>
 
-          <div class="overflow-x-auto overflow-y-visible -mx-6 md:-mx-8 px-6 md:px-8 py-6 scrollbar-thin scrollbar-thumb-primary scrollbar-track-base-200">
+          <div
+            class="overflow-x-auto overflow-y-visible -mx-6 md:-mx-8 px-6 md:px-8 py-6 scrollbar-thin scrollbar-thumb-primary scrollbar-track-base-200">
             <div class="flex gap-4 pb-4" style="scroll-behavior: smooth; width: max-content;">
               {#each result.top_players as player, index}
                 <div class="flex-shrink-0 w-48 md:w-56 text-center space-y-3 py-2">
                   <div
-                    class="relative group cursor-pointer {selectedPlayerIndex === index ? 'ring-4 ring-primary ring-offset-2 rounded-2xl' : ''}"
+                    class="relative group cursor-pointer {selectedPlayerIndex === index
+                      ? 'ring-4 ring-primary ring-offset-2 rounded-2xl'
+                      : ''}"
                     on:click={() => selectPlayer(index)}
                     role="button"
                     tabindex="0"
-                    on:keydown={(e) => {
+                    on:keydown={e => {
                       if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault()
                         selectPlayer(index)
@@ -732,7 +849,10 @@
                     <img
                       src={headshotUrl(player.player_id)}
                       alt={player.name}
-                      class="w-48 h-48 md:w-56 md:h-56 object-cover rounded-2xl shadow-lg border-2 {selectedPlayerIndex === index ? 'border-primary' : 'border-base-content/10'} group-hover:border-primary/50 transition-all duration-300 group-hover:shadow-xl group-hover:scale-105"
+                      class="w-48 h-48 md:w-56 md:h-56 object-cover rounded-2xl shadow-lg border-2 {selectedPlayerIndex ===
+                      index
+                        ? 'border-primary'
+                        : 'border-base-content/10'} group-hover:border-primary/50 transition-all duration-300 group-hover:shadow-xl group-hover:scale-105"
                       loading="lazy"
                       on:error={onHeadshotError}
                       style="transform-origin: center;" />
@@ -757,4 +877,3 @@
     <Footer />
   </div>
 </div>
-
