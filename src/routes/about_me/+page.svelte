@@ -4,11 +4,7 @@
 
   let activeTab: 'experience' | 'education' | 'extracurriculars' = 'experience'
 
-  $: categoryLabel = activeTab === 'experience' 
-    ? 'EXPERIENCE' 
-    : activeTab === 'education' 
-    ? 'EDUCATION' 
-    : 'EXTRAS'
+  $: categoryLabel = activeTab === 'experience' ? 'EXPERIENCE' : activeTab === 'education' ? 'EDUCATION' : 'EXTRAS'
 </script>
 
 <Head />
@@ -49,67 +45,61 @@
       <div class="relative border-l border-base-content/15 pl-6 space-y-10">
         <!-- Atlassian -->
         <article class="relative">
-          <div
-            class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm">
-          </div>
+          <div class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm"></div>
           <div
             class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow relative">
             <div class="absolute top-4 right-4">
-              <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
+              <span
+                class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
                 {categoryLabel}
               </span>
             </div>
             <div class="p-5 md:p-6">
-              <p class="text-xs uppercase tracking-wide text-primary font-semibold">
-                Feb 2026 - Present
-              </p>
-              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">
-                Data Science Associate · Atlassian
-              </h2>
-              <p class="text-sm md:text-base text-base-content/80 mt-4 leading-relaxed">
-                Coming soon!
-              </p>
+              <p class="text-xs uppercase tracking-wide text-primary font-semibold">Feb 2026 - Present</p>
+              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">Data Science Associate · Atlassian</h2>
+              <p class="text-sm md:text-base text-base-content/80 mt-4 leading-relaxed">Coming soon!</p>
             </div>
           </div>
         </article>
 
         <!-- Acenda -->
         <article class="relative">
-          <div
-            class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm">
-          </div>
+          <div class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm"></div>
           <div
             class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow relative">
             <div class="absolute top-4 right-4">
-              <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
+              <span
+                class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
                 {categoryLabel}
               </span>
             </div>
             <div class="p-5 md:p-6">
-              <p class="text-xs uppercase tracking-wide text-primary font-semibold">
-                Feb 2025 - Dec 2025
-              </p>
-              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">
-                Junior Data Scientist · Acenda
-              </h2>
+              <p class="text-xs uppercase tracking-wide text-primary font-semibold">Feb 2025 - Dec 2025</p>
+              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">Junior Data Scientist · Acenda</h2>
               <p class="text-sm md:text-base text-base-content/80 mt-4 leading-relaxed">
                 Built AWS SageMaker ML models in the AI team for an automated customer document processing system.
-
               </p>
               <ul class="list-none text-sm md:text-base text-base-content/80 mt-4 space-y-2">
                 <li class="flex gap-2 items-baseline">
                   <span class="text-primary font-semibold">&raquo;</span>
                   <span>
-                    Improved entity extraction accuracy on customer claims documents by 13.8% by redesigning the text extraction and training pipeline
-                    for the ML model.
-                    <a href="https://www.canva.com/design/DAGqYW-nyug/cgc3hXV59Okbcmns92ybRw/edit?utm_content=DAGqYW-nyug&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank" rel="noopener noreferrer" class="link link-primary font-medium hover:underline">
+                    Improved entity extraction accuracy on customer claims documents by 13.8% by redesigning the text extraction
+                    and training pipeline for the ML model.
+                    <a
+                      href="https://www.canva.com/design/DAGqYW-nyug/cgc3hXV59Okbcmns92ybRw/edit?utm_content=DAGqYW-nyug&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="link link-primary font-medium hover:underline">
                       (presentation)
                     </a>
                   </span>
                 </li>
                 <li class="flex gap-2 items-baseline">
                   <span class="text-primary font-semibold">&raquo;</span>
-                  <span>Increased policy number extraction accuracy on customer policy documents by 10.1% by uncovering dataset bias and introducing diverse training data to improve model robustness.</span>
+                  <span>
+                    Increased policy number extraction accuracy on customer policy documents by 10.1% by uncovering dataset bias
+                    and introducing diverse training data to improve model robustness.
+                  </span>
                 </li>
               </ul>
             </div>
@@ -118,36 +108,35 @@
 
         <!-- Canva -->
         <article class="relative">
-          <div
-            class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm">
-          </div>
+          <div class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm"></div>
           <div
             class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow relative">
             <div class="absolute top-4 right-4">
-              <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
+              <span
+                class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
                 {categoryLabel}
               </span>
             </div>
             <div class="p-5 md:p-6">
-              <p class="text-xs uppercase tracking-wide text-primary font-semibold">
-                Dec 2024 - Feb 2025
-              </p>
-              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">
-                Data Science Intern · Canva
-              </h2>
+              <p class="text-xs uppercase tracking-wide text-primary font-semibold">Dec 2024 - Feb 2025</p>
+              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">Data Science Intern · Canva</h2>
               <p class="text-sm md:text-base text-base-content/80 mt-4 leading-relaxed">
                 Product analytics and user interviews with the Canva Docs team to increase usage of the product.
               </p>
               <ul class="list-none text-sm md:text-base text-base-content/80 mt-4 space-y-2">
                 <li class="flex gap-2 items-baseline">
                   <span class="text-primary font-semibold">&raquo;</span>
-                  <span>Shaped the team's cross-product adoption strategy by leading external user interviews and authoring a
-                    research report with product recommendations, garnering 200+ internal views and 30+ comments.</span>
+                  <span>
+                    Shaped the team's cross-product adoption strategy by leading external user interviews and authoring a
+                    research report with product recommendations, garnering 200+ internal views and 30+ comments.
+                  </span>
                 </li>
                 <li class="flex gap-2 items-baseline">
                   <span class="text-primary font-semibold">&raquo;</span>
-                  <span>Researched data-driven product adoption strategies to influence stakeholder decisions around
-                    boosting Canva Docs usage, resulting in a prototype for experimentation.</span>
+                  <span>
+                    Researched data-driven product adoption strategies to influence stakeholder decisions around boosting Canva
+                    Docs usage, resulting in a prototype for experimentation.
+                  </span>
                 </li>
               </ul>
             </div>
@@ -156,38 +145,41 @@
 
         <!-- Newmont -->
         <article class="relative">
-          <div
-            class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm">
-          </div>
+          <div class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm"></div>
           <div
             class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow relative">
             <div class="absolute top-4 right-4">
-              <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
+              <span
+                class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
                 {categoryLabel}
               </span>
             </div>
             <div class="p-5 md:p-6">
-              <p class="text-xs uppercase tracking-wide text-primary font-semibold">
-                Nov 2023 - Feb 2024
-              </p>
-              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">
-                Data Science Intern · Newmont
-              </h2>
+              <p class="text-xs uppercase tracking-wide text-primary font-semibold">Nov 2023 - Feb 2024</p>
+              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">Data Science Intern · Newmont</h2>
               <p class="text-sm md:text-base text-base-content/80 mt-4 leading-relaxed">
                 Developed data solutions to improve safety and efficiency in mining operations.
               </p>
               <ul class="list-none text-sm md:text-base text-base-content/80 mt-4 space-y-2">
                 <li class="flex gap-2 items-baseline">
                   <span class="text-primary font-semibold">&raquo;</span>
-                  <span>Improved safety monitoring for geotech engineers by productionalising a PowerBI dashboard based on industry barrier management regulations.</span>
+                  <span>
+                    Improved safety monitoring for geotech engineers by productionalising a PowerBI dashboard based on industry
+                    barrier management regulations.
+                  </span>
                 </li>
                 <li class="flex gap-2 items-baseline">
                   <span class="text-primary font-semibold">&raquo;</span>
-                  <span>Streamlined machinery defect identification by creating a PowerApp, eliminating manual paper defect records.</span>
+                  <span>
+                    Streamlined machinery defect identification by creating a PowerApp, eliminating manual paper defect records.
+                  </span>
                 </li>
                 <li class="flex gap-2 items-baseline">
                   <span class="text-primary font-semibold">&raquo;</span>
-                  <span>Identified the top causes and required actions for disruptions to mining processes using natural language processing in Python.</span>
+                  <span>
+                    Identified the top causes and required actions for disruptions to mining processes using natural language
+                    processing in Python.
+                  </span>
                 </li>
               </ul>
             </div>
@@ -196,23 +188,18 @@
 
         <!-- MRPV -->
         <article class="relative">
-          <div
-            class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm">
-          </div>
+          <div class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm"></div>
           <div
             class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow relative">
             <div class="absolute top-4 right-4">
-              <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
+              <span
+                class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
                 {categoryLabel}
               </span>
             </div>
             <div class="p-5 md:p-6">
-              <p class="text-xs uppercase tracking-wide text-primary font-semibold">
-                Jan 2023 - Jul 2023
-              </p>
-              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">
-                Data Analytics Intern · MRPV
-              </h2>
+              <p class="text-xs uppercase tracking-wide text-primary font-semibold">Jan 2023 - Jul 2023</p>
+              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">Data Analytics Intern · MRPV</h2>
               <p class="text-sm md:text-base text-base-content/80 mt-4 leading-relaxed">
                 Supported the team's data analysis and HR reporting needs.
               </p>
@@ -229,7 +216,6 @@
             </div>
           </div>
         </article>
-
       </div>
     </section>
   {:else if activeTab === 'education'}
@@ -237,20 +223,17 @@
       <div class="relative border-l border-base-content/15 pl-6 space-y-10">
         <!-- Monash -->
         <article class="relative">
-          <div
-            class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm">
-          </div>
+          <div class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm"></div>
           <div
             class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow relative">
             <div class="absolute top-4 right-4">
-              <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
+              <span
+                class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
                 {categoryLabel}
               </span>
             </div>
             <div class="p-5 md:p-6">
-              <p class="text-xs uppercase tracking-wide text-primary font-semibold">
-                2022 - 2025
-              </p>
+              <p class="text-xs uppercase tracking-wide text-primary font-semibold">2022 - 2025</p>
               <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">
                 B.CompSci (Data Science) / B.Com (Business Analytics) · Monash University
               </h2>
@@ -285,26 +268,19 @@
 
         <!-- Rossmoyne Senior High School -->
         <article class="relative">
-          <div
-            class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm">
-          </div>
+          <div class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm"></div>
           <div
             class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow relative">
             <div class="absolute top-4 right-4">
-              <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
+              <span
+                class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
                 {categoryLabel}
               </span>
             </div>
             <div class="p-5 md:p-6">
-              <p class="text-xs uppercase tracking-wide text-primary font-semibold">
-                2016 - 2021
-              </p>
-              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">
-                Rossmoyne Senior High School
-              </h2>
-              <p class="text-sm md:text-base text-base-content/80 mt-4 leading-relaxed">
-                Completed secondary education.
-              </p>
+              <p class="text-xs uppercase tracking-wide text-primary font-semibold">2016 - 2021</p>
+              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">Rossmoyne Senior High School</h2>
+              <p class="text-sm md:text-base text-base-content/80 mt-4 leading-relaxed">Completed secondary education.</p>
               <ul class="list-none text-sm md:text-base text-base-content/80 mt-4 space-y-2">
                 <li class="flex gap-2 items-baseline">
                   <span class="text-primary font-semibold">&raquo;</span>
@@ -321,25 +297,23 @@
       <div class="relative border-l border-base-content/15 pl-6 space-y-10">
         <!-- MAC -->
         <article class="relative">
-          <div
-            class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm">
-          </div>
+          <div class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm"></div>
           <div
             class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow relative">
             <div class="absolute top-4 right-4">
-              <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
+              <span
+                class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
                 {categoryLabel}
               </span>
             </div>
             <div class="p-5 md:p-6">
-              <p class="text-xs uppercase tracking-wide text-primary font-semibold">
-                Dec 2023 - Dec 2025
-              </p>
+              <p class="text-xs uppercase tracking-wide text-primary font-semibold">Dec 2023 - Dec 2025</p>
               <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">
                 Committee Officer · Monash Association of Coding
               </h2>
               <p class="text-sm md:text-base text-base-content/80 mt-4 leading-relaxed">
-                Served as a panelist at Monash tech community events and promoted coding events to increase student participation.
+                Served as a panelist at Monash tech community events and promoted coding events to increase student
+                participation.
               </p>
               <ul class="list-none text-sm md:text-base text-base-content/80 mt-4 space-y-2">
                 <li class="flex gap-2 items-baseline">
@@ -357,20 +331,17 @@
 
         <!-- CCA -->
         <article class="relative">
-          <div
-            class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm">
-          </div>
+          <div class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm"></div>
           <div
             class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow relative">
             <div class="absolute top-4 right-4">
-              <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
+              <span
+                class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
                 {categoryLabel}
               </span>
             </div>
             <div class="p-5 md:p-6">
-              <p class="text-xs uppercase tracking-wide text-primary font-semibold">
-                Apr 2022 - Dec 2025
-              </p>
+              <p class="text-xs uppercase tracking-wide text-primary font-semibold">Apr 2022 - Dec 2025</p>
               <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">
                 Committee Executive · Computing & Commerce Association
               </h2>
@@ -401,23 +372,18 @@
 
         <!-- Vinnies -->
         <article class="relative">
-          <div
-            class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm">
-          </div>
+          <div class="absolute -left-[9px] w-4 h-4 rounded-full border-2 border-primary bg-base-100 shadow-sm"></div>
           <div
             class="ml-4 md:ml-6 rounded-2xl bg-base-100/80 backdrop-blur border border-base-content/10 shadow-md hover:shadow-xl transition-shadow relative">
             <div class="absolute top-4 right-4">
-              <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
+              <span
+                class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-primary/20 text-primary border border-primary/30">
                 {categoryLabel}
               </span>
             </div>
             <div class="p-5 md:p-6">
-              <p class="text-xs uppercase tracking-wide text-primary font-semibold">
-                Nov 2019 - Feb 2021
-              </p>
-              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">
-                Retail Volunteer · Vinnies Australia
-              </h2>
+              <p class="text-xs uppercase tracking-wide text-primary font-semibold">Nov 2019 - Feb 2021</p>
+              <h2 class="text-lg md:text-xl font-bold text-base-content mt-2">Retail Volunteer · Vinnies Australia</h2>
               <p class="text-sm md:text-base text-base-content/80 mt-4 leading-relaxed">
                 Volunteered to support poverty alleviation efforts through retail operations.
               </p>
@@ -433,7 +399,7 @@
       </div>
     </section>
   {/if}
-  
+
   <!-- Footer -->
   <div class="mt-20 pt-12 border-t border-base-content/10">
     <Footer />
