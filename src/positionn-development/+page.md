@@ -1,10 +1,29 @@
 ---
-title: "Deep Dive into XGBoost"
-created: 2026-01-19
+title: "Positionn: ML for NBA Position Prediction
+created: 2026-01-25
 tags: [Python, Machine Learning]
 ---
 
-I've always been aware of the power of XGBoost, especially with tabular datasets, but I've never explored its use in great detail. This article provides my comprehensive overview of XGBoost; the algorithm and  package in Python.
+For as long as I can remember, I've been in love with basketball. No other sport offers the intense feeling of despair, to exhilaration, and back to despair, as I root for my favourite team during the few months of NBA basketball.  
+
+While I could never become an NBA player myself, us fans are fortunate there exists an abundance of rich data. This opens up a world of interesting projects, with **positionn** serving as an app to predict your ideal NBA position and the players you most closely resemble.  
+
+This article provides a comprehensive overview of the process, learnings, and improvements from months of model development using machine learning techniques.  
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
+This article provides my comprehensive overview of XGBoost; the algorithm and  package in Python.
 
 ---
 
@@ -12,7 +31,7 @@ I've always been aware of the power of XGBoost, especially with tabular datasets
 
 ## Ensemble Learning
 
-Ensemble learning is a technique that combines multiple individual models, aggregating their predictions, to produce better predictions than a single model alone. XGBoost is a form of ensemble-based learning, so it feels natural to begin by describing this effective method of building models. Two common ensemble-based methods are bagging and boosting.
+Ensemble learning is a technique that combines multiple individual models, aggregating their predictions, to produce better predictions than a single model alone. XGBoost is a form of ensemble-based learning, so it feels natural to begin by describing this effective method of building models. common ensemble-based methods are bagging and boosting.
 
 ### Bagging (Boostrap Aggregating)
 
