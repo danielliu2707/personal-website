@@ -82,19 +82,10 @@ export const header: HeaderConfig = {
         {
           text: 'Website Development',
           link: '/website-development'
-        }
-      ]
-    },
-    {
-      text: 'Course Reflections',
-      children: [
-        {
-          text: 'ThoughtSpot SQL',
-          link: '/courses/thoughtspot'
         },
         {
-          text: 'Databricks SQL',
-          link: '/courses/databricks'
+          text: 'Positionn Development',
+          link: '/positionn-development'
         }
       ]
     }

@@ -4,26 +4,36 @@
   export let title: string
   export let scrollY: number
   export let pin: boolean
+
+  let mobileMenuOpen = false
+
+  function closeMobileMenu() {
+    mobileMenuOpen = false
+  }
 </script>
 
-<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-<!-- reference: https://github.com/saadeghi/daisyui/issues/1285 -->
-<div class="dropdown lg:hidden">
-  <label for="navbar-dropdown" tabindex="0" class="btn btn-square btn-ghost">
+<div class="dropdown lg:hidden" class:dropdown-open={mobileMenuOpen} data-pin={pin}>
+  <button
+    type="button"
+    aria-label="Open menu"
+    aria-expanded={mobileMenuOpen}
+    on:click={() => (mobileMenuOpen = !mobileMenuOpen)}
+    class="btn btn-square btn-ghost">
     <span class="i-heroicons-outline-menu-alt-1" />
-  </label>
+  </button>
+  <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
   <ul
     id="navbar-dropdown"
     tabindex="0"
-    class:hidden={!pin}
     class="menu menu-compact dropdown-content bg-base-100 text-base-content shadow-lg rounded-box min-w-[14rem] max-w-[18rem] p-2
     ">
     {#each nav as { text, link, children }}
       {#if link && !children}
         <li>
-          <a class:font-bold={link === path} href={link}>{text}</a>
+          <a class:font-bold={link === path} href={link} on:click={closeMobileMenu}>{text}</a>
         </li>
       {:else if children}
+        <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
         <li tabindex="0">
           <span class:font-bold={children.some(({ link }) => link === path)} class="justify-between gap-1 max-w-[13rem]">
             {#if text === 'Apps'}
@@ -37,9 +47,9 @@
             <span class="i-heroicons-solid-chevron-right mr-2" />
           </span>
           <ul class="bg-base-100 text-base-content shadow-lg p-2">
-            {#each children as { text, link }}
+            {#each children as { text: childText, link: childLink }}
               <li>
-                <a class:font-bold={link === path} href={link}>{text}</a>
+                <a class:font-bold={childLink === path} href={childLink} on:click={closeMobileMenu}>{childText}</a>
               </li>
             {/each}
           </ul>
