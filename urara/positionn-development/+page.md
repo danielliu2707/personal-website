@@ -31,12 +31,31 @@ While the NBA API provided high-quality data, there were a few notable issues wh
 
 ---
 
-### Step 3:
+### Step 3: Problem Definition
+
+The objective of Positionn is to accurately predict the position (Guard, Forward, Center) a user would play based on their basic statistics. Using the retrieved and preprocessed data, we could train a model to predict exactly that.  
+
+Before any training, I discovered the dataset was mildly imbalanced, with 1,781 Guards, 1476 Forwards, and 559 Centers. Since we want fair predictive performance across all classes, I decided to proceed using the following metrics for imbalanced datasets:
+
+* **Balanced accuracy**: Averages how well the model correctly identifies each class, so rare classes count just as much as common ones.
+* **F1 macro**: Computes the F1 score for each class independently (balancing precision and recall per class) and then takes the average. This treats all classes equally regardless of their frequency, making it suitable for imbalanced datasets.
+
+---
+
+### Step 4: Feature Selection
+
+As mentioned in steps 1 & 2, I retrieved the data and performed feature engineering. To ensure the importance of the player statistic attributes, I used the `SelectKBest()`, `mutual_info_clasif()`, and `SelectKBest(score_func=chi2)` methods to prune out `age` and `year`. These were consistently the least important attributes (see below).
+
+![feature-importance](./feature-importance.png)
+
+---
+
+### Step 5:
 
 
 
 
-Big Mistake: Training on player_id. Forced me to re-run my entire workflow and assess whether any model rankings changed. LGBM still remained best model. 
+**Note:** Big Mistake: Training on player_id. Forced me to re-run my entire workflow and assess whether any model rankings changed. LGBM still remained best model. 
 
 
 
