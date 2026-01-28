@@ -6,7 +6,7 @@ tags: [Python, Machine Learning]
 
 For as long as I can remember, I have been in love with basketball.  
 
-While I could never become an NBA player myself, us fans are fortunate there exists an abundance of rich data. This opens up a world of interesting projects, with [positionn](https://www.danielliu.xyz/projects/positionn/) serving as an app to predict your ideal NBA position and the players you most closely resemble.  
+While I could never become an NBA player myself, us data fanatics are fortunate there exists an abundance of rich basketball data. This opens up a world of interesting projects, with [positionn](https://www.danielliu.xyz/projects/positionn/) serving as an app to predict your ideal NBA position and the players you most closely resemble.  
 
 This article provides a comprehensive overview of the process, learnings, and improvements from months of model development using machine learning techniques.  
 
@@ -31,9 +31,9 @@ While the NBA API provided high-quality data, there were a few notable issues wh
 
 ---
 
-### Step 3: Problem Definition
+## Step 3: Problem Definition
 
-The objective of Positionn is to accurately predict the position (Guard, Forward, Center) a user would play based on their basic statistics. Using the retrieved and preprocessed data, we could train a model to predict exactly that.  
+The objective of Positionn is to accurately predict the position (Guard, Forward, Center) a user would play based on their basic statistics. Using the retrieved and preprocessed data, we could train a model to assist us with this **multi-class classification** problem.  
 
 Before any training, I discovered the dataset was mildly imbalanced, with 1,781 Guards, 1476 Forwards, and 559 Centers. Since we want fair predictive performance across all classes, I decided to proceed using the following metrics for imbalanced datasets:
 
@@ -42,15 +42,346 @@ Before any training, I discovered the dataset was mildly imbalanced, with 1,781 
 
 ---
 
-### Step 4: Feature Selection
+## Step 4: Feature Selection
 
-As mentioned in steps 1 & 2, I retrieved the data and performed feature engineering. To ensure the importance of the player statistic attributes, I used the `SelectKBest()`, `mutual_info_clasif()`, and `SelectKBest(score_func=chi2)` methods to prune out `age` and `year`. These were consistently the least important attributes (see below).
+To ensure the importance of player statistics in my dataset, I used the `SelectKBest()`, `mutual_info_clasif()`, and `SelectKBest(score_func=chi2)` methods to give a general score to each feature (see below).
 
 ![feature-importance](./feature-importance.png)
 
+* From the visualisations, I decided to prune out `age` and `year`. These were consistently the least important attributes across all three importance measures.
+
 ---
 
-### Step 5:
+## Step 5: Training & Comparing different models
+
+To ensure a sufficient description of the major types of models I tried, I will separate the training process description into steps for the **basic models** and **gradient boosting models**.
+
+### Basic Models
+
+The initial model in production, a support vector machine with gridsearch hyperparameter tuning, was the best performing model in terms of its **nested cross-validation** balanced accuracy and f1 scores. This was selected from a subset of model families which include:
+* Logistic Regression
+* Decision Tree
+* Random Forest
+* Histogram Gradient Boosting
+* Support Vector Machine
+
+To ensure a fair evaluation process, all models were trained using the same general process. I will now describe `PlayerStatisticsModel`, a class with the methods for training & evaluating these basic models.  
+
+**First, I defined the initialisation of the `PlayerStatisticsModel` class.**
+
+```
+class PlayerStatisticsModel:
+    def __init__(
+        self, model, preprocessor: ColumnTransformer,
+        data: pd.DataFrame, target: pd.Series, cv: int
+    ):
+        """
+         Initialisation of PlayerStatisticsModel class.
+        
+         Inputs:
+          - model: sklearn machine learning model class
+          - preprocessor (ColumnTransformer): preprocessing steps
+          - data: input features
+          - target: input target
+          - cv: number of cv folds to estimate generalisability of model
+        """
+        self.metrics = ["balanced_accuracy", "f1_macro"]  # metrics to evaluate/fit models
+        self.cv = cv  # number of cv folds
+        self.results = pd.DataFrame()   # dataframe to store performance results of models
+        self.data = data
+        self.target = target
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(data, target, test_size = 0.25, stratify=target, random_state=42)
+        self.preprocessor = preprocessor
+        self.model = Pipeline(
+            steps=[
+                ("preprocessor", preprocessor),
+                ("model", model)
+            ]
+        )
+```
+
+* Notably, every model trained using the `PlayerStatisticsModel` class will use the same train/test split as we set `random_state=42`.
+* The Scikit-Learn `model` passed to the class object, such as `LogisticRegression()` or `DecisionTreeClassifier()`, fits into the `Pipeline()`, with preprocessing (i.e. standard scaling) applied.
+
+**Next, I defined the `.cv_score()` method to run basic cross-validation on `self.model.**
+
+```
+def cv_score(self, model_name: str) -> tuple[dict[list], dict[list]]:
+    """
+     Runs cross-validation on the default model (i.e. without hyperparameter tuning), obtaining the performance of the model.
+
+     Inputs:
+      - model_name (str): name of the model that will exist as its index in the self.results df
+
+     Returns:
+      - dict_scores_agg (dict[list]): dictionary containing the mean & std results for each model metric
+      - dict_scores_folds (dict[list]): dictionary containing the model metric results for each fold
+    """   
+    # get CV scores for default model
+    dict_scores_agg = dict()
+    dict_scores_folds = dict()
+    for metric in self.metrics:
+        cv_results = cross_validate(self.model, data, target, cv=self.cv, scoring=metric)
+        scoring = cv_results['test_score']
+        dict_scores_agg[metric] = (scoring.mean(), scoring.std())
+        dict_scores_folds[metric] = scoring
+    self._add_model_results(dict_scores_agg, model_name)
+    return dict_scores_agg, dict_scores_folds
+```
+
+* You will notice the results from each cross-validation fold is stored in dictionaries `dict_scores_agg` and `dict_scores_folds`. These store the average and fold-specific balanced accuracy and f1 scores of the model. 
+* The results are then added to a record of different model performances by calling the `self._add_model_results()` helper function.
+
+**Since we will continue to use `self._add_model_results()` helper method, let's formally define it.**
+
+```
+def _add_model_results(self, model_result: dict[list], model_name: str):
+    """
+     Anonymous method that concatenates the mean and standard deviation cross-validation score for all specified metrics of a model onto a 
+     pre-existing dataframe (self.results). This enables us to quickly
+     compare the cv-performance of models as we build them.
+
+     Inputs:
+      - model_result (dict[list]): dictionary containing the mean & std results for each model metric
+      - model_name (str): name of the model that will exist as its index in the self.results df
+    """   
+    # Gets model results as df to append to self.results
+    df = pd.DataFrame(model_result)
+
+    # extract rows and add suffixes to column names, then combine
+    mean_row = df.iloc[0].rename(lambda col: f"{col}_mean")
+    std_row = df.iloc[1].rename(lambda col: f"{col}_std")
+    flattened_series = pd.concat([mean_row, std_row])
+    flattened_df = pd.DataFrame([flattened_series])
+
+    # set the index to the model name
+    flattened_df.index = [model_name]
+
+    # if model already exists in results df, then replace. Otherwise, append.
+    if model_name in list(self.results.index):
+        self.results.loc[model_name] = flattened_df.iloc[0]
+    else:
+        self.results = pd.concat([self.results, flattened_df])
+```
+
+* This helper method appends the mean and standard deviation balanced accuracy and f1 cross-validation scores to `self.results`, a dataframe to quickly compare the cv performance of models as we build them.
+
+**We define another convenience method, `.print_cv_results()`, which prints the mean and standard deviation cross-validation score in a pretty format.**
+
+```
+def print_cv_results(self, dict_results:dict[tuple]):
+    """
+     Prints the mean and standard deviation cross-validation score for a specified metrics in a pretty format.
+    
+     Inputs:
+      - dict_results (dict[tuple]): the mean & std results of a model on all evaluation metrics
+    """
+    for metric, value in dict_results.items():
+        print(f"The mean cross-validation {metric} score is: "
+        f"{value[0]:.3f} ± {value[1]:.3f}")
+```
+
+**Next, we define a general method `.grid_search_cv_score()` to fit and tune a models hyperparameters with gridsearch, performing *nested cross-validation* to estimate its balanced accuracy and f1 on unseen data.**
+
+```
+def grid_search_cv_score(self, model_name: str, param_grid: dict):
+    """
+     Fits a model with grid_search to tune its hyperparameters. Then performs
+     nested cross-validation to obtain an estimate of the generalisability
+     of the model & variance of this estimate.
+
+     Inputs:
+      - model_name (str): name of the model that will exist as its index in the self.results df
+      - param_grid (dict): grid of hyperparameters to iterate through
+     
+     Returns:
+      - dict_scores_agg (dict[list]): dictionary containing the mean & std results for each model metric
+      - dict_scores_folds (dict[list]): dictionary containing the model metric results for each fold
+      - best_model: sklearn model of best performing model after gridsearch hyperparameter tuning
+    """
+    with self._suppress_warnings_and_output():
+        model_grid_search = GridSearchCV(self.model, param_grid=param_grid, n_jobs=-1, scoring=self.metrics, refit=self.metrics[0], verbose=1)
+
+        # fit grid search on training data to extract best model
+        model_grid_search.fit(self.X_train, self.y_train)
+        best_model = model_grid_search.best_estimator_
+
+        # get nested CV scores for best model
+        dict_scores_agg = dict()
+        dict_scores_folds = dict()
+
+        # perform nested cv for each metric, storing results in dictionaries
+        for metric in self.metrics:
+            cv_results = cross_validate(model_grid_search, data, target, cv=self.cv, n_jobs=-1, scoring=metric)
+            scoring = cv_results['test_score']
+            dict_scores_agg[metric] = (scoring.mean(), scoring.std())
+            dict_scores_folds[metric] = scoring
+
+        # add results to dataframe for easy model comparison
+        self._add_model_results(dict_scores_agg, model_name)
+        return dict_scores_agg, dict_scores_folds, best_model
+```
+
+* The method requires `param_grid`, a grid of hyperparameter values to try on the model.
+* Only the best performing model will have its performance and pipeline model returned.
+
+**Similarly, we define a general method `.randomised_search_cv_score()` to fit and tune a models hyperparameters with randomsearch, performing *nested cross-validation* to estimate its balanced accuracy and f1 on unseen data.**
+
+```
+def randomised_search_cv_score(self, model_name: str, param_distributions: dict, n_iter: int):
+    """
+     Fits a model with randomised_search to tune its hyperparameters.
+     It Then performs nested cross-validation to obtain an estimate of the 
+     generalisability of the model & variance of this estimate.
+
+     Inputs:
+      - model_name (str): name of the model that will exist as its index in the self.results df
+      - param_distributions (dict): range of possible values each hyperparameter that can be sampled
+      - n_iter (int): number of iterations to run randomised_search (i.e. models to be fitted & evaluated)
+     
+     Returns:
+      - dict_scores_agg (dict[list]): dictionary containing the mean & std results for each model metric
+      - dict_scores_folds (dict[list]): dictionary containing the model metric results for each fold
+      - best_model: sklearn model of best performing model after gridsearch hyperparameter tuning
+    """
+    with self._suppress_warnings_and_output():
+        model_random_search = RandomizedSearchCV(self.model, param_distributions=param_distributions, n_iter=n_iter, n_jobs=-1, scoring=self.metrics, refit=self.metrics[0], verbose=1)
+        # fit grid search on training data to extract best model
+        model_random_search.fit(self.X_train, self.y_train)
+        best_model = model_random_search.best_estimator_
+        # get nested CV scores for best model
+        dict_scores_agg = dict()
+        dict_scores_folds = dict()
+        # perform nested cv for each metric, storing results in dictionaries
+        for metric in self.metrics:
+            cv_results = cross_validate(model_random_search, data, target, cv=self.cv, n_jobs=-1, scoring=metric)
+            scoring = cv_results['test_score']
+            dict_scores_agg[metric] = (scoring.mean(), scoring.std())
+            dict_scores_folds[metric] = scoring
+        # add results to dataframe for easy model comparison    
+        self._add_model_results(dict_scores_agg, model_name)
+        return dict_scores_agg, dict_scores_folds, best_model
+```
+
+* The method requires `param_distributions`, a range of hyperparameter values to try on the model.
+
+**What is the difference between grid search and randomised search?**
+
+* Answer question to explain rationale!
+
+**Why do we need nested cross-validation for evaluating and selection of models when performing hyperparameter tuning?**
+
+* Answer question to explain rationale!
+
+
+**While we returned the performance and tuned model itself, the gridsearch and randomised search methods did not provide us with the tuned hyperparameters themselves. The `.get_best_tuned_params()` method provides this desired functionality.**
+
+```
+def get_best_tuned_params(self, best_model, param_grid: dict):
+    """
+     Gets the best tuned parameters for a model after gridsearch
+     or randomised_search hyperparameter tuning.
+
+     Inputs:
+      - best_model: sklearn model of best performing model after hyperparameter tuning
+      - param_grid (dict): grid of hyperparameters to iterate through
+     
+     Returns:
+      - dictionary of tuned parameters and their values for the best model
+    """
+    params = [param for param in best_model.get_params() if param.startswith('model__') and param in list(param_grid.keys())]
+
+    params_values = [best_model.get_params()[param] for param in params]
+
+    return dict(zip(params, params_values))
+```
+
+**In some ad-hoc instances, I was interested in reinforced the superiority of a model by comparing the individual fold performance between two models, plotting their balanced accuracy and f1 scores. The `.plot_fold_comparison()` method does this.**
+
+```
+def plot_fold_comparison(self, metric: str, fold_results: tuple[list[int]], label_names: tuple[str], colors: tuple[str]):
+    """
+     Plots a comparison of the model's evaluation metric (i.e. performance)
+     on each individual cross-validation fold. If there are 4
+     cross-validation folds, a scatterplot with four dots will be plotted.
+    
+     Inputs:
+      - metric (str): sklearn evaluation metric of choice
+      - fold_results (tuple[list[int]]): tuple containing the fold results of each model
+      - label_names (tuple[str]): names to give each to each model in the legend of plot
+      - colors (tuple[str]): colors to give each model in the plot
+    """
+    # handle edge case: user passes in invalid metric to plot
+    if metric not in self.metrics:
+        raise Exception(f"Please pass in a valid metric: {self.metrics}")
+    else:
+        fig, ax = plt.subplots(figsize=(6, 5))
+
+        # iterate through each model's fold_result, adding scatterplots
+        for i in range(len(fold_results)):
+            indicies = np.arange(len(fold_results[i][metric]))
+            sns.scatterplot(x=indicies, y=fold_results[i][metric], color=f"tab:{colors[i]}", label=label_names[i], ax=ax)
+
+        # plot axis settings
+        ax.set_xlabel("Cross-validation iteration")
+        ax.set_ylabel("Balanced Accuracy")
+        ax.set_title(f"{self.cv}-Fold {metric}")
+        ax.set_xticks(np.arange(0, self.cv))
+        ax.set_ylim(0,1)
+        ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left")
+```
+
+For instance, we used this method to visualise a comparison between the cross-validation folds of the best performing logistic regression and tree models.  
+
+* Insert image here!!! (--- Comparison of folds between best Logistic Regression & Decision Tree models ---)  
+
+Mostly, this method was not extremely useful.
+
+**Finally, you may have noticed I used the `._suppress_warnings_and_output()` helper method throughout the previous methods. Its purpose is to suppress annoying output warning messages from running gridsearch or randomised search.**  
+
+```
+@contextmanager
+def _suppress_warnings_and_output(self):
+    # save original warning environment variable
+    original_warnings = os.environ.get("PYTHONWARNINGS", "")
+    
+    # suppress UserWarning and FutureWarning
+    os.environ["PYTHONWARNINGS"] = "ignore::UserWarning, ignore::FutureWarning"
+    warnings.filterwarnings("ignore", category=UserWarning)
+    warnings.filterwarnings("ignore", category=FutureWarning)
+
+    # capture all stdout/stderr output
+    with io.capture_output() as captured:
+        try:
+            yield captured
+        finally:
+            # restore warnings environment and filters
+            os.environ["PYTHONWARNINGS"] = original_warnings
+            warnings.filterwarnings("default", category=UserWarning)
+            warnings.filterwarnings("default", category=FutureWarning)
+```
+
+
+Continue describing how I used these methods to train a single model. Provide an example (e.g. LogisticRegression). 
+
+Show the end result after model training. (i.e. the final table). One thing that catches my eye is that both Gradient Boosting methods outperformed any of the basic methods. So how did we go back Gradient Boosting (the final models in production after I found they outperformed svms; mention how they were a late addition).
+
+
+
+
+
+
+
+
+### Gradient Boosting Models
+
+
+
+
+
+---
+
+
 
 
 
